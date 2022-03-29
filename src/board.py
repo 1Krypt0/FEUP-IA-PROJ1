@@ -15,11 +15,19 @@ class Board:
         self.start = (size-1, 0)
         self.goal = (0,size-1)
         self.visited = [[0 for col in range(size)] for lin in range(size)]
+        self.visited_shapes = set()
+        self.all_shapes = hardcoded_shapes()
         self.size = size
 
-    # moved implementation to algo.py
     def visit(self, pos):
+        self.visited_shapes.add(self.board[pos[0]][pos[1]])
         self.visited[pos[0]][pos[1]] = 1
+
+    def unvisit(self, pos):
+        shape = self.board[pos[0]][pos[1]]
+        if shape != 0:
+            self.visited_shapes.discard(shape)
+        self.visited[pos[0]][pos[1]] = 0
 
     def print_board(self):
         print("_____________")
@@ -43,3 +51,5 @@ def hardcoded_board():
                 [0,5,5,5,6,6],
                 [0,0,0,5,0,0]
             ]
+def hardcoded_shapes():
+    return {0,1,2,3,4,5,6}
