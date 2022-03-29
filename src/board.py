@@ -11,8 +11,9 @@ class Board:
         self.visited = [[0 for col in range(size)] for lin in range(size)]
         self.size = size
 
-    def visit(self, pos):
-        self.visited[pos[0]][pos[1]] = 1
+    # moved implementation to algo.py
+    # def visit(self, pos):
+    #     self.visited[pos[0]][pos[1]] = 1
 
     def print_board(self):
         print("_____________")
