@@ -1,20 +1,32 @@
+class Colors:
+    red='\033[31m'
+    reset='\033[0m'
+
 class Board:
     def __init__(self, size: int):
         # self.board = generate_board()
         self.board = hardcoded_board()
-        self.goal = (0,size-1)
         self.start = (size-1, 0)
+        self.goal = (0,size-1)
+        self.visited = [[0 for col in range(size)] for lin in range(size)]
+        self.size = size
+
+    def visit(self, pos):
+        self.visited[pos[0]][pos[1]] = 1
 
     def print_board(self):
         print("_____________")
-        for line in self.board:
-            for col in line:
-                print("|" + str(col), end='')
+        for line in range(self.size):
+            for col in range(self.size):
+                if(self.visited[line][col] == 1):
+                    print("|" + Colors.red + str(self.board[line][col]) + Colors.reset, end='')
+                else:
+                    print("|" + str(self.board[line][col]), end='')
             print("|")
         print("‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
 
-def generate_board():
+def generate_board(size):
     return [[0 for col in range(size)] for lin in range(size)]
 
 def hardcoded_board():
