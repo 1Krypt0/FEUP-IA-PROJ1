@@ -1,10 +1,74 @@
-# TODO: gow the fuck do you document in python
+# # board  -> bidimensional board array
+# path   -> array of visited board positions on path
+# shapes -> set of visited shape identifiers
+# start  -> current position on the algorithm, on the maze
+# goal   -> end position, on the maze
+def backtracking(board, start, goal):
 
-def backtracking(board, visited_nodes, visited_, start, goal):
-    if(start == goal):
-        visited.append(start)
+    startx = start[1]
+    starty = start[0]
+    
+    board.visit(start)
+
+    if is_complete(start, goal):
+        if not visited_all(board):
+            board.unvisit(start)
+            return False
+        board.print_board()
         return True
-    # check if we have
-    if(backtracking(board, visited))
+
+    solution = False
+    # down
+    if(check_valid(board, (starty+1, startx))):
+        if backtracking(board, (starty+1, startx), goal):
+            return True
+
+    # up
+    if(check_valid(board, (starty-1, startx))):
+        if backtracking(board, (starty-1, startx), goal):
+            return True
+    
+    # right
+    if(check_valid(board, (starty, startx+1))):
+        if backtracking(board, (starty, startx+1), goal):
+            return True
+
+    # left
+    if(check_valid(board, (starty, startx-1))):
+        if backtracking(board, (starty, startx-1), goal):
+            return True
+
+    board.unvisit(start)
 
     return False
+
+# pos  -> current position on the algorithm, on the maze
+# goal -> end position, on the maze
+def is_complete(pos, goal):
+    return pos == goal
+
+def visited_all(board):
+    return board.visited_shapes == board.all_shapes
+
+def check_bounds(board, pos):
+    return not (pos[0] < 0 or pos[1] < 0 or pos[0] >= board.size or pos[1] >= board.size)
+    
+
+# board  -> board object
+# shapes -> array of visited board positions on path
+# pos    -> current position on the algorithm, on the maze
+# returns the validity of the position
+def check_valid(board, pos):
+
+    if not check_bounds(board, pos):
+        return False
+
+    shape = board.board[pos[0]][pos[1]]
+
+    if board.visited[pos[0]][pos[1]] == 1:
+        return False
+
+    if shape in board.visited_shapes and shape != 0:
+        return False
+
+    return True
