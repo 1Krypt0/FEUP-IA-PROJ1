@@ -1,3 +1,9 @@
+# PROBLEM
+#       VISITED IS UPDATING THE VISITED INSIDE THE BOARD CLASS
+#           IS THE ONE I'M PASSING JUST A REFERENCE TO THE ACTUAL OBJECT???
+#           WE DON'T WANT THAT, WE WANT A COPY (so that changes persist)
+
+
 class Colors:
     red='\033[31m'
     reset='\033[0m'
@@ -12,17 +18,15 @@ class Board:
         self.size = size
 
     # moved implementation to algo.py
-    # def visit(self, pos):
-    #     self.visited[pos[0]][pos[1]] = 1
+    def visit(self, pos):
+        self.visited[pos[0]][pos[1]] = 1
 
     def print_board(self):
         print("_____________")
         for line in range(self.size):
             for col in range(self.size):
-                if(self.visited[line][col] == 1):
-                    print("|" + Colors.red + str(self.board[line][col]) + Colors.reset, end='')
-                else:
-                    print("|" + str(self.board[line][col]), end='')
+                change_color = self.visited
+                print("|" + Colors.red * self.visited[line][col] + str(self.board[line][col]) + Colors.reset, end='')
             print("|")
         print("‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
