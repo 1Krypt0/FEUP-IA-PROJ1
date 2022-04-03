@@ -1,12 +1,5 @@
-# PROBLEM
-#       VISITED IS UPDATING THE VISITED INSIDE THE BOARD CLASS
-#           IS THE ONE I'M PASSING JUST A REFERENCE TO THE ACTUAL OBJECT???
-#           WE DON'T WANT THAT, WE WANT A COPY (so that changes persist)
-
-
-class Colors:
-    red = "\033[31m"
-    reset = "\033[0m"
+RED = "\033[31m"
+RESET = "\033[0m"
 
 
 class Board:
@@ -37,9 +30,9 @@ class Board:
                 change_color = self.visited
                 print(
                     "|"
-                    + Colors.red * self.visited[line][col]
+                    + RED * self.visited[line][col]
                     + str(self.board[line][col])
-                    + Colors.reset,
+                    + RESET,
                     end="",
                 )
             print("|")
