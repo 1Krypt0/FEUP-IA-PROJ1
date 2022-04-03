@@ -4,17 +4,17 @@
 #           WE DON'T WANT THAT, WE WANT A COPY (so that changes persist)
 
 
-
 class Colors:
-    red='\033[31m'
-    reset='\033[0m'
+    red = "\033[31m"
+    reset = "\033[0m"
+
 
 class Board:
     def __init__(self, size: int) -> None:
         # self.board = generate_board()
         self.board = hardcoded_board()
-        self.start = (size-1, 0)
-        self.goal = (0,size-1)
+        self.start = (size - 1, 0)
+        self.goal = (0, size - 1)
         self.visited = [[0 for col in range(size)] for lin in range(size)]
         self.visited_shapes = set()
         self.all_shapes = hardcoded_shapes()
@@ -35,7 +35,13 @@ class Board:
         for line in range(self.size):
             for col in range(self.size):
                 change_color = self.visited
-                print("|" + Colors.red * self.visited[line][col] + str(self.board[line][col]) + Colors.reset, end='')
+                print(
+                    "|"
+                    + Colors.red * self.visited[line][col]
+                    + str(self.board[line][col])
+                    + Colors.reset,
+                    end="",
+                )
             print("|")
         print("‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
@@ -43,14 +49,17 @@ class Board:
 def generate_board(size) -> list:
     return [[0 for col in range(size)] for lin in range(size)]
 
+
 def hardcoded_board() -> list:
     return [
-                [1,1,1,2,2,0],
-                [0,3,1,2,4,0],
-                [0,3,0,2,4,6],
-                [0,3,3,4,4,6],
-                [0,5,5,5,6,6],
-                [0,0,0,5,0,0]
-            ]
+        [0, 0, 0, 6, 6, 0],
+        [4, 4, 5, 5, 6, 0],
+        [0, 4, 5, 0, 6, 0],
+        [0, 4, 5, 0, 3, 2],
+        [0, 1, 3, 3, 3, 2],
+        [0, 1, 1, 1, 2, 2],
+    ]
+
+
 def hardcoded_shapes() -> set:
-    return {0,1,2,3,4,5,6}
+    return {0, 1, 2, 3, 4, 5, 6}
