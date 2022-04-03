@@ -7,7 +7,7 @@ def backtracking(board, start, goal) -> bool:
 
     startx = start[1]
     starty = start[0]
-    
+
     board.visit(start)
 
     if is_complete(start, goal):
@@ -19,40 +19,45 @@ def backtracking(board, start, goal) -> bool:
 
     solution = False
     # down
-    if(check_valid(board, (starty+1, startx))):
-        if backtracking(board, (starty+1, startx), goal):
+    if check_valid(board, (starty + 1, startx)):
+        if backtracking(board, (starty + 1, startx), goal):
             return True
 
     # up
-    if(check_valid(board, (starty-1, startx))):
-        if backtracking(board, (starty-1, startx), goal):
+    if check_valid(board, (starty - 1, startx)):
+        if backtracking(board, (starty - 1, startx), goal):
             return True
-    
+
     # right
-    if(check_valid(board, (starty, startx+1))):
-        if backtracking(board, (starty, startx+1), goal):
+    if check_valid(board, (starty, startx + 1)):
+        if backtracking(board, (starty, startx + 1), goal):
             return True
 
     # left
-    if(check_valid(board, (starty, startx-1))):
-        if backtracking(board, (starty, startx-1), goal):
+    if check_valid(board, (starty, startx - 1)):
+        if backtracking(board, (starty, startx - 1), goal):
             return True
 
     board.unvisit(start)
 
     return False
 
+
 # pos  -> current position on the algorithm, on the maze
 # goal -> end position, on the maze
 def is_complete(pos, goal) -> bool:
     return pos == goal
 
+
 def visited_all(board) -> bool:
     return board.visited_shapes == board.all_shapes
 
+
 def check_bounds(board, pos: list) -> bool:
-    return not (pos[0] < 0 or pos[1] < 0 or pos[0] >= board.size or pos[1] >= board.size)
-    
+    return not (
+        pos[0] < 0 or pos[1] < 0 or pos[0] >= board.size or pos[1] >= board.size
+    )
+
 
 # board  -> board object
 # shapes -> array of visited board positions on path
