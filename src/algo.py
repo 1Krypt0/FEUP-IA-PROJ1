@@ -1,3 +1,4 @@
+
 # # board  -> bidimensional board array
 # path   -> array of visited board positions on path
 # shapes -> set of visited shape identifiers

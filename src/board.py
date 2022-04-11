@@ -56,3 +56,6 @@ def hardcoded_board() -> list:
 
 def hardcoded_shapes() -> set:
     return {0, 1, 2, 3, 4, 5, 6}
+
+if __name__ == '__main__':
+    pass
