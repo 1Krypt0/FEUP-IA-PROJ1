@@ -12,6 +12,7 @@ class Board:
         self.visited_shapes = set()
         self.all_shapes = hardcoded_shapes()
         self.size = size
+        self.visit(self.start)
 
     def visit(self, pos) -> None:
         self.visited_shapes.add(self.board[pos[0]][pos[1]])
@@ -24,8 +25,10 @@ class Board:
         self.visited[pos[0]][pos[1]] = 0
 
     def print_board(self) -> None:
-        print("_____________")
+        print("   0 1 2 3 4 5 ")
+        print("  _____________")
         for line in range(self.size):
+            print(line, end=" ")
             for col in range(self.size):
                 change_color = self.visited
                 print(
@@ -36,7 +39,7 @@ class Board:
                     end="",
                 )
             print("|")
-        print("‾‾‾‾‾‾‾‾‾‾‾‾‾")
+        print("  ‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
 
 def generate_board(size) -> list:
