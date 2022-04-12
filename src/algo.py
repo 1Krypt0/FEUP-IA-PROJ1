@@ -1,11 +1,12 @@
 from state import BoardState, OPERATORS
+from board import is_solved, check_valid, is_complete, visited_all
 
 # board  -> bidimensional board array
 # path   -> array of visited board positions on path
 # shapes -> set of visited shape identifiers
 # start  -> current position on the algorithm, on the maze
 # goal   -> end position, on the maze
-def backtracking(board, start, goal) -> bool:
+def backtracking(board, start, goal) -> bool:  # TODO: Change into a DFS
 
     startx = start[1]
     starty = start[0]
@@ -64,49 +65,9 @@ def bfs(start: BoardState) -> list:
 
     path = []
     if solution:
-        solution.board.print_board()
+        print(solution.board)
         while solution:
             path.append(solution)
             solution = solution.previousNode
 
     return list(reversed(path))
-
-
-# pos  -> current position on the algorithm, on the maze
-# goal -> end position, on the maze
-def is_complete(pos, goal) -> bool:
-    return pos == goal
-
-
-def visited_all(board) -> bool:
-    return board.visited_shapes == board.all_shapes
-
-
-def is_solved(pos, goal, board):
-    return is_complete(pos, goal) and visited_all(board)
-
-
-def check_bounds(board, pos: list) -> bool:
-    return not (
-        pos[0] < 0 or pos[1] < 0 or pos[0] >= board.size or pos[1] >= board.size
-    )
-
-
-# board  -> board object
-# shapes -> array of visited board positions on path
-# pos    -> current position on the algorithm, on the maze
-# returns the validity of the position
-def check_valid(board, pos) -> bool:
-
-    if not check_bounds(board, pos):
-        return False
-
-    shape = board.board[pos[0]][pos[1]]
-
-    if board.visited[pos[0]][pos[1]] == 1:
-        return False
-
-    if shape in board.visited_shapes and shape != 0:
-        return False
-
-    return True
