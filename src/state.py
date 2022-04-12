@@ -113,6 +113,14 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
 
     return False
 
+def ids(state: BoardState) -> list:
+    depth = 0
+    while True:
+        if not dfs(state, depth):
+            depth += 1
+        else:
+            return get_solution_from_next(state)
+
 
 def get_solution_from_next(state: BoardState) -> list:
     path = []

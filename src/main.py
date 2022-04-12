@@ -1,5 +1,5 @@
 from board import Board
-from state import BoardState, bfs, dfs
+from state import BoardState, bfs, dfs, ids
 
 
 def main():
@@ -8,7 +8,7 @@ def main():
     # board.print_board()
     board = Board(6)
     state = BoardState(board.start, board)
-    dfs(state, 20)
+    ids(state)
 
 
 if __name__ == "__main__":
