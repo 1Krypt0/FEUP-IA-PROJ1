@@ -59,6 +59,8 @@ def handle_heuristics_menu(state: int) -> None:
 def handle_difficulty_menu(player: int, heuristic=None) -> None:
     display_difficulty_menu()
     option = read_option([1, 2, 3, 4, 5])
+    if option == 5:
+        handle_main_menu()
     board = generate_board(option)
     board_state = BoardState(board.start, board)
     handle_player(player, board_state, heuristic)
