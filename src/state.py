@@ -8,7 +8,6 @@ class BoardState:
         self.y, self.x = pos
         self.board = board
         self.previousNode = previousNode
-        self.children = self.calculateChildren()
 
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, BoardNode) and self.board == __o.board
@@ -16,13 +15,10 @@ class BoardState:
     def __repr__(self):
         return f'(x: {self.x}, y: {self.y})'
 
-    def calculateChildren(self):
-        pass
-
 
 # Operators
 
-def move_up(state):
+def move_up(state: BoardState) -> BoardState:
     new_pos = (state.y - 1, state.x)
     if not check_valid(state.board, new_pos):
         return
@@ -30,7 +26,7 @@ def move_up(state):
     new_board.visit(new_pos)
     return BoardState(new_pos, new_board)
 
-def move_down(state):
+def move_down(state: BoardState) -> BoardState:
     new_pos = (state.y + 1, state.x)
     if not check_valid(state.board, new_pos):
         return
@@ -38,7 +34,7 @@ def move_down(state):
     new_board.visit(new_pos)
     return BoardState(new_pos, new_board)
 
-def move_left(state):
+def move_left(state: BoardState) -> BoardState:
     new_pos = (state.y, state.x - 1)
     if not check_valid(state.board, new_pos):
         return
@@ -46,7 +42,7 @@ def move_left(state):
     new_board.visit(new_pos)
     return BoardState(new_pos, new_board)
 
-def move_right(state):
+def move_right(state: BoardState) -> BoardState:
     new_pos = (state.y, state.x + 1)
     if not check_valid(state.board, new_pos):
         return
@@ -60,7 +56,7 @@ operators = [move_up, move_down, move_left, move_right]
 # Search algorithms
 
 
-def bfs(start):
+def bfs(start: BoardState) -> list:
     queue = [start]
     solution = None
 
