@@ -1,5 +1,6 @@
+from copy import deepcopy
 from typing import Callable
-from algo import is_complete, is_solved
+from algo import is_solved
 from state import (
     BoardState,
     get_solution_from_previous,
@@ -15,11 +16,17 @@ def play(board: BoardState) -> list:
     while not is_solved((board.x, board.y), (board.goal_x, board.goal_y), board.board):
         print(board.board)
         move = choose_move()
-        board = move(board)
+        dummy = deepcopy(board)
+        if move(dummy) is None:
+            print("That's an invalid move! I'm staying right where I am")
+            continue
+        else:
+
+            board = move(board)
     return get_solution_from_previous(board)
 
 
-def choose_move() -> Callable[[BoardState], BoardState]:
+def choose_move() -> Callable[[BoardState], BoardState | None]:
     print("")
     option = input(
         "Enter your move here (w - UP, a - LEFT, s - DOWN, d - RIGHT, b - BACK): "
