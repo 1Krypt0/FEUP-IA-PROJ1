@@ -1,6 +1,6 @@
 from board import generate_board
 from heuristics import euclidian_distance, manhattan_distance, visited_l
-from state import BoardState
+from state import BoardState, bfs, dfs, ids, ucs
 
 # Global Constants
 PLAYER = 0
@@ -69,16 +69,16 @@ def handle_player(player: int, board: BoardState, heuristic=None) -> None:
         pass  # Change to play()
     elif player == DFS:
         print("DFS with", board.board, "Board and heuristic", heuristic)
-        pass  # Change to DFS()
+        dfs(board, 20)
     elif player == BFS:
         print("BFS with", board.board, "Board and heuristic", heuristic)
-        pass  # Change to BFS()
+        bfs(board)
     elif player == IDS:
         print("IDS with", board.board, "Board and heuristic", heuristic)
-        pass  # Change to IDS()
+        ids(board)
     elif player == UCS:
         print("UCS with", board.board, "Board and heuristic", heuristic)
-        pass  # Change to UCS()
+        ucs(board)
     elif player == GREEDY:
         print("GREEDY with", board.board, "Board and heuristic", heuristic)
         pass  # Change to Greedy
