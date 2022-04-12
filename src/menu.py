@@ -1,5 +1,3 @@
-MAIN_MENU = 0
-BOARD_MENU = 1
 AI_GAME = False
 
 
