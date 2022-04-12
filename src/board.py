@@ -26,21 +26,41 @@ class Board:
             self.visited_shapes.discard(shape)
         self.visited[pos[0]][pos[1]] = 0
 
-    def print_board(self) -> None:
-        print("   0 1 2 3 4 5 ")
-        print("  _____________")
+    def __repr__(self) -> str:
+        final = "   0 1 2 3 4 5 "
+        final += "\n"
+        final += "  _____________"
         for line in range(self.size):
             print(line, end=" ")
+            final += str(line) + " "
             for col in range(self.size):
-                print(
+                final += (
                     "|"
                     + RED * self.visited[line][col]
                     + str(self.board[line][col])
-                    + RESET,
-                    end="",
+                    + RESET
                 )
-            print("|")
-        print("  ‾‾‾‾‾‾‾‾‾‾‾‾‾")
+            final += "|\n"
+        final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾"
+        return final
+
+    def __str__(self) -> str:
+        final = "   0 1 2 3 4 5 "
+        final += "\n"
+        final += "  _____________"
+        for line in range(self.size):
+            print(line, end=" ")
+            final += str(line) + " "
+            for col in range(self.size):
+                final += (
+                    "|"
+                    + RED * self.visited[line][col]
+                    + str(self.board[line][col])
+                    + RESET
+                )
+            final += "|\n"
+        final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾"
+        return final
 
 
 def generate_board(size) -> list:
