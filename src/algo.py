@@ -1,3 +1,4 @@
+
 # # board  -> bidimensional board array
 # path   -> array of visited board positions on path
 # shapes -> set of visited shape identifiers
@@ -51,6 +52,9 @@ def is_complete(pos, goal) -> bool:
 
 def visited_all(board) -> bool:
     return board.visited_shapes == board.all_shapes
+
+def is_solved(pos, goal, board):
+    return is_complete(pos, goal) and visited_all(board)
 
 
 def check_bounds(board, pos: list) -> bool:
