@@ -56,38 +56,6 @@ def move_right(state: BoardState) -> BoardState:
     return BoardState(new_pos, new_board)
 
 
-operators = [move_up, move_down, move_left, move_right]
+OPERATORS = [move_up, move_down, move_left, move_right]
 
 # Search algorithms
-
-
-def bfs(start: BoardState) -> list:
-    queue = [start]
-    solution = None
-
-    while queue:
-        current = queue.pop(0)
-        if is_solved(
-            (current.y, current.x), (current.goal_y, current.goal_x), current.board
-        ):
-            solution = current
-            break
-        for op in operators:
-            next = op(current)
-            if not next:
-                continue
-            next.previousNode = current
-            queue.append(next)
-
-    path = []
-    if solution:
-        solution.board.print_board()
-        while solution:
-            path.append(solution)
-            solution = solution.previousNode
-
-    return list(reversed(path))
-
-
-if __name__ == "__main__":
-    pass

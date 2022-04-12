@@ -1,5 +1,6 @@
 from board import Board
-from state import *
+from state import BoardState
+from algo import bfs
 
 
 def main():
