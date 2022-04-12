@@ -103,7 +103,7 @@ class BoardState:
 # Operators
 
 
-def move_up(state: BoardState) -> BoardState:
+def move_up(state: BoardState) -> BoardState | None:
     """
     Generate a next state where the player has gone up by one spot
 
@@ -118,10 +118,12 @@ def move_up(state: BoardState) -> BoardState:
         return
     new_board = deepcopy(state.board)
     new_board.visit(new_pos)
-    return BoardState(new_pos, new_board)
+    newstate = BoardState(new_pos, new_board)
+    newstate.previous_node = state
+    return newstate
 
 
-def move_down(state: BoardState) -> BoardState:
+def move_down(state: BoardState) -> BoardState | None:
     """
     Generate a next state where the player has gone down by one spot
 
@@ -136,10 +138,12 @@ def move_down(state: BoardState) -> BoardState:
         return
     new_board = deepcopy(state.board)
     new_board.visit(new_pos)
-    return BoardState(new_pos, new_board)
+    newstate = BoardState(new_pos, new_board)
+    newstate.previous_node = state
+    return newstate
 
 
-def move_left(state: BoardState) -> BoardState:
+def move_left(state: BoardState) -> BoardState | None:
     """
     Generate a next state where the player has gone left by one spot
 
@@ -154,10 +158,12 @@ def move_left(state: BoardState) -> BoardState:
         return
     new_board = deepcopy(state.board)
     new_board.visit(new_pos)
-    return BoardState(new_pos, new_board)
+    newstate = BoardState(new_pos, new_board)
+    newstate.previous_node = state
+    return newstate
 
 
-def move_right(state: BoardState) -> BoardState:
+def move_right(state: BoardState) -> BoardState | None:
     """
     Generate a next state where the player has gone right by one spot
 
@@ -172,7 +178,16 @@ def move_right(state: BoardState) -> BoardState:
         return
     new_board = deepcopy(state.board)
     new_board.visit(new_pos)
-    return BoardState(new_pos, new_board)
+    newstate = BoardState(new_pos, new_board)
+    newstate.previous_node = state
+    return newstate
+
+
+def move_back(state: BoardState) -> BoardState:
+    if state.previous_node is None:
+        return state
+    else:
+        return state.previous_node
 
 
 OPERATORS = {move_up: 1, move_down: 1, move_left: 1, move_right: 1}
