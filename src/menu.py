@@ -1,4 +1,5 @@
 from board import generate_board
+from game import play
 from heuristics import euclidian_distance, manhattan_distance, visited_l
 from state import BoardState, bfs, dfs, ids, ucs
 
@@ -66,7 +67,7 @@ def handle_difficulty_menu(player: int, heuristic=None) -> None:
 def handle_player(player: int, board: BoardState, heuristic=None) -> None:
     if player == PLAYER:
         print("Human with", board.board, "Board and heuristic", heuristic)
-        pass  # Change to play()
+        play(board)
     elif player == DFS:
         print("DFS with", board.board, "Board and heuristic", heuristic)
         dfs(board, 20)
