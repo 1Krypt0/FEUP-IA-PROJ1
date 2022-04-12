@@ -5,12 +5,14 @@ RESET = "\033[0m"
 class Board:
     def __init__(self, size: int) -> None:
         # self.board = generate_board()
-        self.board = hardcoded_board()
+        self.board = hardcoded_board()  # TODO: Change to generated board
         self.start = (size - 1, 0)
         self.goal = (0, size - 1)
-        self.visited = [[0 for col in range(size)] for lin in range(size)]
+        self.visited = [
+            [0 for _ in range(size)] for _ in range(size)
+        ]  # TODO: No need to keep track of everything in a Matrix
         self.visited_shapes = set()
-        self.all_shapes = hardcoded_shapes()
+        self.all_shapes = hardcoded_shapes()  # TODO: Change to actual shape identifier
         self.size = size
         self.visit(self.start)
 
@@ -30,7 +32,6 @@ class Board:
         for line in range(self.size):
             print(line, end=" ")
             for col in range(self.size):
-                change_color = self.visited
                 print(
                     "|"
                     + RED * self.visited[line][col]
@@ -43,7 +44,7 @@ class Board:
 
 
 def generate_board(size) -> list:
-    return [[0 for col in range(size)] for lin in range(size)]
+    return [[0 for _ in range(size)] for _ in range(size)]
 
 
 def hardcoded_board() -> list:
@@ -59,6 +60,3 @@ def hardcoded_board() -> list:
 
 def hardcoded_shapes() -> set:
     return {0, 1, 2, 3, 4, 5, 6}
-
-if __name__ == '__main__':
-    pass
