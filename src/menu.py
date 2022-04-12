@@ -11,6 +11,15 @@ def display_menu() -> None:
     print("                    3. Exit the Game                                ")
 
 
+def handle_option() -> None:
+    option = read_option()
+    while True:
+        if choose_option(option):
+            break
+        else:
+            option = read_option()
+
+
 def choose_option(option: int) -> bool:
     if option == 1:
         print("Playing the game!")
