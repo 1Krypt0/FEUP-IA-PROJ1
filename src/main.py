@@ -3,12 +3,18 @@ from state import BoardState, bfs, dfs, ids
 
 
 def main():
-    # board = Board(6)
-    # solved = backtracking(board, board.start, board.goal)
-    # board.print_board()
     board = Board(6)
-    state = BoardState(board.start, board)
-    ids(state)
+    state1 = BoardState(board.start, board)
+    print("BFS")
+    bfs(state1)
+    board.reset()
+    state2 = BoardState(board.start, board)
+    print("DFS, limited at 20")
+    dfs(state2, 20)
+    state3 = BoardState(board.start, board)
+    print("IDS")
+    ids(state3)
+    
 
 
 if __name__ == "__main__":

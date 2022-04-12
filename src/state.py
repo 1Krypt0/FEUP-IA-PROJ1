@@ -119,13 +119,14 @@ def ids(state: BoardState) -> list:
         if not dfs(state, depth):
             depth += 1
         else:
-            return get_solution_from_next(state)
+            return get_solution_from_next(state, False)
 
 
-def get_solution_from_next(state: BoardState) -> list:
+def get_solution_from_next(state: BoardState, show=True) -> list:
     path = []
     while state:
         path.append(state)
         state = state.next_node
-    path[-1].board.print_board()
+    if show:
+        path[-1].board.print_board()
     return path
