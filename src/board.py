@@ -1,12 +1,14 @@
 from board_lists import *
+import random
 
 RED = "\033[31m"
 RESET = "\033[0m"
 
 
 class Board:
-    def __init__(self, size: int) -> None:
-        self.board = EASY_BOARDS_LIST[0]
+    def __init__(self, difficulty: int) -> None:
+        self.board = choose_random_board(difficulty)
+        size = len(self.board)
         self.start = (size - 1, 0)
         self.goal = (0, size - 1)
         self.visited = [
@@ -28,11 +30,11 @@ class Board:
         self.visited[pos[0]][pos[1]] = 0
 
     def __repr__(self) -> str:
-        final = "   0 1 2 3 4 5 "
+        final = "\n"
+        final += "   0 1 2 3 4 5 "
         final += "\n"
-        final += "  _____________"
+        final += "  _____________\n"
         for line in range(self.size):
-            print(line, end=" ")
             final += str(line) + " "
             for col in range(self.size):
                 final += (
@@ -46,11 +48,11 @@ class Board:
         return final
 
     def __str__(self) -> str:
-        final = "   0 1 2 3 4 5 "
+        final = "\n"
+        final += "   0 1 2 3 4 5 "
         final += "\n"
-        final += "  _____________"
+        final += "  _____________\n"
         for line in range(self.size):
-            print(line, end=" ")
             final += str(line) + " "
             for col in range(self.size):
                 final += (
@@ -102,14 +104,6 @@ def check_valid(board: Board, pos) -> bool:
     return True
 
 
-def generate_board(size) -> list:
-    return [[0 for _ in range(size)] for _ in range(size)]
-
-
-def hardcoded_shapes() -> set:
-    return {0, 1, 2, 3, 4, 5, 6}
-
-
 def determine_shapes(board: list[list[int]]) -> set:
     final = set()
     for line in board:
@@ -117,3 +111,20 @@ def determine_shapes(board: list[list[int]]) -> set:
             if num not in final:
                 final.add(num)
     return final
+
+
+def generate_board(difficulty: int) -> Board:
+    return Board(difficulty)
+
+
+def choose_random_board(difficulty: int) -> list[list[int]]:
+    if difficulty == 1:
+        return random.choice(EASY_BOARDS_LIST)
+    elif difficulty == 2:
+        return random.choice(MEDIUM_BOARDS_LIST)
+    elif difficulty == 3:
+        return random.choice(HARD_BOARDS_LIST)
+    elif difficulty == 4:
+        return random.choice(EXTREME_BOARDS_LIST)
+    else:
+        return [[-1]]
