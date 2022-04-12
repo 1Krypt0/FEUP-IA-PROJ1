@@ -84,14 +84,7 @@ def bfs(start: BoardState) -> list:
             next.previousNode = current
             queue.append(next)
 
-    path = []
-    if solution:
-        solution.board.print_board()
-        while solution:
-            path.append(solution)
-            solution = solution.previousNode
-
-    return list(reversed(path))
+    return get_solution_from_previous(solution)
 
 
 def dfs(state: BoardState, max_depth: int) -> list:
@@ -147,14 +140,7 @@ def ucs(start: BoardState) -> list:
             next.previousNode = current
             queue.put((pair[0] + OPERATORS[op], [next]))
 
-    path = []
-    if solution:
-        solution.board.print_board()
-        while solution:
-            path.append(solution)
-            solution = solution.previousNode
-
-    return list(reversed(path))
+    return get_solution_from_previous(solution)
 
 
 def get_solution_from_next(state: BoardState, show=True) -> list:
@@ -165,3 +151,15 @@ def get_solution_from_next(state: BoardState, show=True) -> list:
     if show:
         path[-1].board.print_board()
     return path
+
+
+def get_solution_from_previous(state: BoardState, show=True) -> list:
+    path = []
+    if state:
+        if show:
+            state.board.print_board()
+        while state:
+            path.append(state)
+            state = state.previousNode
+
+    return list(reversed(path))
