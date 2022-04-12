@@ -1,9 +1,8 @@
-from menu import display_menu, handle_option
+from menu import handle_main_menu
 
 
 def main():
-    display_menu()
-    handle_option()
+    handle_main_menu()
 
 
 if __name__ == "__main__":

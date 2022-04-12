@@ -1,4 +1,46 @@
-def display_menu() -> None:
+MAIN_MENU = 0
+BOARD_MENU = 1
+AI_GAME = False
+
+
+def handle_main_menu() -> None:
+    display_main_menu()
+    option = read_option([1, 2, 3])
+    if option == 1:
+        print("Going to the difficulty now")
+        handle_difficulty_menu()
+    elif option == 2:
+        print("Going to the difficulty with AI now")
+        AI_GAME = True
+    elif option == 3:
+        return
+
+
+def handle_difficulty_menu() -> None:
+    display_difficulty_menu()
+    option = read_option([1, 2, 3, 4, 5])
+    if option == 1:
+        print("Choosing easy board (small one)")
+    elif option == 2:
+        print("Choosing a medium board (meh)")
+    elif option == 3:
+        print("Choosing a hard board")
+    elif option == 4:
+        print("Choosing an extreme board. Good luck")
+    elif option == 5:
+        handle_main_menu()
+
+
+def read_option(acceptable_options: list) -> int:
+    print("")
+    option = input("Enter your option here: ")
+    while not option.isnumeric() or int(option) not in acceptable_options:
+        print("That's an invalid option. Choose again")
+        option = input("Enter your option here: ")
+    return int(option)
+
+
+def display_main_menu() -> None:
     print("___________       __              __  .__             .____     ")
     print("\\__    ___/____  |  | __ ____   _/  |_|  |__   ____   |    |    ")
     print("  |    |  \\__  \\ |  |/ // __ \\  \\   __\\  |  \\_/ __ \\  |    |    ")
@@ -11,34 +53,19 @@ def display_menu() -> None:
     print("                    3. Exit the Game                                ")
 
 
-def handle_option() -> None:
-    option = read_option()
-    while True:
-        if choose_option(option):
-            break
-        else:
-            option = read_option()
-
-
-def choose_option(option: int) -> bool:
-    if option == 1:
-        print("Playing the game!")
-        return True
-    elif option == 2:
-        print("Letting the computer play!")
-        return True
-    elif option == 3:
-        return True
-    else:
-        print("That's an invalid option! Choose again.")
-        return False
-
-
-def read_option() -> int:
+def display_difficulty_menu() -> None:
     print("")
-    option = input("Enter your option here: ")
-    if option.isnumeric():
-        return int(option)
-    else:
-        print("That's an invalid option. Choose again")
-        return read_option()
+    print("___________       __              __  .__             .____     ")
+    print("\\__    ___/____  |  | __ ____   _/  |_|  |__   ____   |    |    ")
+    print("  |    |  \\__  \\ |  |/ // __ \\  \\   __\\  |  \\_/ __ \\  |    |    ")
+    print("  |    |   / __ \\|    <\\  ___/   |  | |   Y  \\  ___/  |    |___ ")
+    print("  |____|  (____  /__|_ \\\\___  >  |__| |___|  /\\___  > |_______ \\")
+    print("               \\/     \\/    \\/             \\/     \\/          \\/")
+    print("")
+    print("                    Choose your difficulty:                        ")
+    print("                           1. Easy                            ")
+    print("                           2. Medium                       ")
+    print("                           3. Hard")
+    print("                           4. Extreme")
+    print("                           5. Go back")
+    pass
