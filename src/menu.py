@@ -1,4 +1,6 @@
+from board import generate_board
 from heuristics import euclidian_distance, manhattan_distance, visited_l
+from state import BoardState
 
 # Global Constants
 PLAYER = 0
@@ -56,43 +58,32 @@ def handle_heuristics_menu(state: int) -> None:
 def handle_difficulty_menu(player: int, heuristic=None) -> None:
     display_difficulty_menu()
     option = read_option([1, 2, 3, 4, 5])
-    if option == 1:
-        board = 0  # BoardState((0, 0), Board(6))  # Choose easy board
-        handle_player(player, board, heuristic)
-    elif option == 2:
-        board = 0  # BoardState((0, 0), Board(7))  # Choose medium
-        handle_player(player, board, heuristic)
-    elif option == 3:
-        board = 0  # BoardState((0, 0), Board(8))  # Choose hard board
-        handle_player(player, board, heuristic)
-    elif option == 4:
-        board = 0  # BoardState((0, 0), Board(9))  # Choose extreme board
-        handle_player(player, board, heuristic)
-    elif option == 5:
-        handle_main_menu()
+    board = generate_board(option)
+    board_state = BoardState(board.start, board)
+    handle_player(player, board_state, heuristic)
 
 
-def handle_player(player: int, board, heuristic=None) -> None:
+def handle_player(player: int, board: BoardState, heuristic=None) -> None:
     if player == PLAYER:
-        print("Human with", board, "Board and heuristic", heuristic)
+        print("Human with", board.board, "Board and heuristic", heuristic)
         pass  # Change to play()
     elif player == DFS:
-        print("Human with", board, "Board and heuristic", heuristic)
+        print("DFS with", board.board, "Board and heuristic", heuristic)
         pass  # Change to DFS()
     elif player == BFS:
-        print("Human with", board, "Board and heuristic", heuristic)
+        print("BFS with", board.board, "Board and heuristic", heuristic)
         pass  # Change to BFS()
     elif player == IDS:
-        print("Human with", board, "Board and heuristic", heuristic)
+        print("IDS with", board.board, "Board and heuristic", heuristic)
         pass  # Change to IDS()
     elif player == UCS:
-        print("Human with", board, "Board and heuristic", heuristic)
+        print("UCS with", board.board, "Board and heuristic", heuristic)
         pass  # Change to UCS()
     elif player == GREEDY:
-        print("Human with", board, "Board and heuristic", heuristic)
+        print("GREEDY with", board.board, "Board and heuristic", heuristic)
         pass  # Change to Greedy
     elif player == A_STAR:
-        print("Human with", board, "Board and heuristic", heuristic)
+        print("A* with", board.board, "Board and heuristic", heuristic)
         pass  # Change to A*
 
 
