@@ -1,6 +1,6 @@
 from board import *
 from copy import deepcopy
-from algo import check_valid, is_solved
+from algo import check_valid
 
 
 class BoardState:
