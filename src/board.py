@@ -44,7 +44,7 @@ class Board:
                     + RESET
                 )
             final += "|\n"
-        final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾"
+        final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾\n"
         return final
 
     def __str__(self) -> str:
@@ -62,7 +62,7 @@ class Board:
                     + RESET
                 )
             final += "|\n"
-        final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾"
+        final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾\n"
         return final
 
 
