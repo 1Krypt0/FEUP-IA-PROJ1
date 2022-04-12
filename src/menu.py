@@ -1,50 +1,99 @@
-AI_GAME = False
+from heuristics import euclidian_distance, manhattan_distance, visited_l
+
+# Global Constants
+PLAYER = 0
+DFS = 1
+BFS = 2
+IDS = 3
+UCS = 4
+GREEDY = 5
+A_STAR = 6
 
 
 def handle_main_menu() -> None:
     display_main_menu()
     option = read_option([1, 2, 3])
     if option == 1:
-        handle_difficulty_menu()
+        handle_difficulty_menu(PLAYER)
     elif option == 2:
-        AI_GAME = True
         handle_algo_menu()
     elif option == 3:
         return
-
-
-def handle_difficulty_menu() -> None:
-    display_difficulty_menu()
-    option = read_option([1, 2, 3, 4, 5])
-    if option == 1:
-        print("Choosing easy board (small one)")
-    elif option == 2:
-        print("Choosing a medium board (meh)")
-    elif option == 3:
-        print("Choosing a hard board")
-    elif option == 4:
-        print("Choosing an extreme board. Good luck")
-    elif option == 5:
-        handle_main_menu()
 
 
 def handle_algo_menu() -> None:
     display_algo_menu()
     option = read_option([1, 2, 3, 4, 5, 6, 7])
     if option == 1:
-        print("Choosing dfs")
+        handle_difficulty_menu(DFS)
     elif option == 2:
-        print("Choosing a bfs")
+        handle_difficulty_menu(BFS)
     elif option == 3:
-        print("Choosing ids")
+        handle_difficulty_menu(IDS)
     elif option == 4:
-        print("Choosing ucs")
+        handle_difficulty_menu(UCS)
     elif option == 5:
-        print("Choosing greedy")
+        handle_heuristics_menu(GREEDY)
     elif option == 6:
-        print("Choosing A*")
+        handle_heuristics_menu(A_STAR)
     elif option == 7:
         handle_main_menu()
+
+
+def handle_heuristics_menu(state: int) -> None:
+    display_heuristics_menu()
+    option = read_option([1, 2, 3, 4])
+    if option == 1:
+        handle_difficulty_menu(state, manhattan_distance)
+    elif option == 2:
+        handle_difficulty_menu(state, euclidian_distance)
+    elif option == 3:
+        handle_difficulty_menu(state, visited_l)
+    elif option == 4:
+        handle_algo_menu()
+
+
+def handle_difficulty_menu(player: int, heuristic=None) -> None:
+    display_difficulty_menu()
+    option = read_option([1, 2, 3, 4, 5])
+    if option == 1:
+        board = 0  # BoardState((0, 0), Board(6))  # Choose easy board
+        handle_player(player, board, heuristic)
+    elif option == 2:
+        board = 0  # BoardState((0, 0), Board(7))  # Choose medium
+        handle_player(player, board, heuristic)
+    elif option == 3:
+        board = 0  # BoardState((0, 0), Board(8))  # Choose hard board
+        handle_player(player, board, heuristic)
+    elif option == 4:
+        board = 0  # BoardState((0, 0), Board(9))  # Choose extreme board
+        handle_player(player, board, heuristic)
+    elif option == 5:
+        handle_main_menu()
+
+
+def handle_player(player: int, board, heuristic=None) -> None:
+    if player == PLAYER:
+        print("Human with", board, "Board and heuristic", heuristic)
+        pass  # Change to play()
+    elif player == DFS:
+        print("Human with", board, "Board and heuristic", heuristic)
+        pass  # Change to DFS()
+    elif player == BFS:
+        print("Human with", board, "Board and heuristic", heuristic)
+        pass  # Change to BFS()
+    elif player == IDS:
+        print("Human with", board, "Board and heuristic", heuristic)
+        pass  # Change to IDS()
+    elif player == UCS:
+        print("Human with", board, "Board and heuristic", heuristic)
+        pass  # Change to UCS()
+    elif player == GREEDY:
+        print("Human with", board, "Board and heuristic", heuristic)
+        pass  # Change to Greedy
+    elif player == A_STAR:
+        print("Human with", board, "Board and heuristic", heuristic)
+        pass  # Change to A*
 
 
 def read_option(acceptable_options: list) -> int:
@@ -56,7 +105,8 @@ def read_option(acceptable_options: list) -> int:
     return int(option)
 
 
-def display_main_menu() -> None:
+def display_banner() -> None:
+    print("")
     print("___________       __              __  .__             .____     ")
     print("\\__    ___/____  |  | __ ____   _/  |_|  |__   ____   |    |    ")
     print("  |    |  \\__  \\ |  |/ // __ \\  \\   __\\  |  \\_/ __ \\  |    |    ")
@@ -64,20 +114,17 @@ def display_main_menu() -> None:
     print("  |____|  (____  /__|_ \\\\___  >  |__| |___|  /\\___  > |_______ \\")
     print("               \\/     \\/    \\/             \\/     \\/          \\/")
     print("")
+
+
+def display_main_menu() -> None:
+    display_banner()
     print("                    1. I want to play!                            ")
     print("                    2. Let the Computer play!                       ")
     print("                    3. Exit the Game                                ")
 
 
 def display_difficulty_menu() -> None:
-    print("")
-    print("___________       __              __  .__             .____     ")
-    print("\\__    ___/____  |  | __ ____   _/  |_|  |__   ____   |    |    ")
-    print("  |    |  \\__  \\ |  |/ // __ \\  \\   __\\  |  \\_/ __ \\  |    |    ")
-    print("  |    |   / __ \\|    <\\  ___/   |  | |   Y  \\  ___/  |    |___ ")
-    print("  |____|  (____  /__|_ \\\\___  >  |__| |___|  /\\___  > |_______ \\")
-    print("               \\/     \\/    \\/             \\/     \\/          \\/")
-    print("")
+    display_banner()
     print("                    Choose your difficulty:                        ")
     print("                           1. Easy                            ")
     print("                           2. Medium                       ")
@@ -87,14 +134,7 @@ def display_difficulty_menu() -> None:
 
 
 def display_algo_menu() -> None:
-    print("")
-    print("___________       __              __  .__             .____     ")
-    print("\\__    ___/____  |  | __ ____   _/  |_|  |__   ____   |    |    ")
-    print("  |    |  \\__  \\ |  |/ // __ \\  \\   __\\  |  \\_/ __ \\  |    |    ")
-    print("  |    |   / __ \\|    <\\  ___/   |  | |   Y  \\  ___/  |    |___ ")
-    print("  |____|  (____  /__|_ \\\\___  >  |__| |___|  /\\___  > |_______ \\")
-    print("               \\/     \\/    \\/             \\/     \\/          \\/")
-    print("")
+    display_banner()
     print("                    Choose your algorithm:                        ")
     print("                    1. Depth-First Search ")
     print("                    2. Breadth-First Search")
@@ -103,3 +143,12 @@ def display_algo_menu() -> None:
     print("                    5. Greedy Search ")
     print("                    6. A* Search")
     print("                    7. Go back")
+
+
+def display_heuristics_menu() -> None:
+    display_banner()
+    print("                    Choose your heuristic:                        ")
+    print("                    1. Manhattan Distance")
+    print("                    2. Euclidian Distance")
+    print("                    3. Number of L Shapes visited")
+    print("                    4. Go back")
