@@ -1,10 +1,9 @@
 def is_solved(pos, goal, board):
     return is_complete(pos, goal) and visited_all(board)
 
+
 # pos  -> current position on the algorithm, on the maze
 # goal -> end position, on the maze
-
-
 def is_complete(pos, goal) -> bool:
     return pos == goal
 
