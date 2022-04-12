@@ -1,5 +1,6 @@
 from board import *
 from copy import deepcopy
+from queue import PriorityQueue
 from algo import check_valid, is_solved
 
 
@@ -13,6 +14,9 @@ class BoardState:
 
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, BoardState) and self.board == __o.board
+
+    def __lt__(self, __o: object()) -> bool:
+        return isinstance(__o, BoardState) and self.x == __o.x
 
     def __repr__(self):
         return f"(x: {self.x}, y: {self.y})"
@@ -57,7 +61,7 @@ def move_right(state: BoardState) -> BoardState:
     return BoardState(new_pos, new_board)
 
 
-OPERATORS = [move_up, move_down, move_left, move_right]
+OPERATORS = {move_up: 1, move_down: 1, move_left: 1, move_right: 1}
 
 # Search algorithms
 
@@ -113,6 +117,7 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
 
     return False
 
+
 def ids(state: BoardState) -> list:
     depth = 0
     while True:
@@ -120,6 +125,36 @@ def ids(state: BoardState) -> list:
             depth += 1
         else:
             return get_solution_from_next(state, False)
+
+
+def ucs(start: BoardState) -> list:
+    queue = PriorityQueue()
+    queue.put((0, [start]))
+
+    while queue:
+        pair = queue.get()
+        current = pair[1][-1]
+        if is_solved(
+                (current.y, current.x), (current.goal_y,
+                                         current.goal_x), current.board
+        ):
+            solution = current
+            break
+        for op in OPERATORS:
+            next = op(current)
+            if not next:
+                continue
+            next.previousNode = current
+            queue.put((pair[0] + OPERATORS[op], [next]))
+
+    path = []
+    if solution:
+        solution.board.print_board()
+        while solution:
+            path.append(solution)
+            solution = solution.previousNode
+
+    return list(reversed(path))
 
 
 def get_solution_from_next(state: BoardState, show=True) -> list:

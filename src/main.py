@@ -1,5 +1,5 @@
 from board import Board
-from state import BoardState, bfs, dfs, ids
+from state import BoardState, bfs, dfs, ids, ucs
 
 
 def main():
@@ -11,11 +11,14 @@ def main():
     state2 = BoardState(board.start, board)
     print("DFS, limited at 20")
     dfs(state2, 20)
+    board.reset()
     state3 = BoardState(board.start, board)
     print("IDS")
     ids(state3)
-    
-
+    board.reset()
+    print("UCS")
+    state4 = BoardState(board.start, board)
+    ucs(state4)
 
 if __name__ == "__main__":
     main()
