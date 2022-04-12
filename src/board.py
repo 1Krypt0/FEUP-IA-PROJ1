@@ -1,18 +1,19 @@
+from board_lists import *
+
 RED = "\033[31m"
 RESET = "\033[0m"
 
 
 class Board:
     def __init__(self, size: int) -> None:
-        # self.board = generate_board()
-        self.board = hardcoded_board()  # TODO: Change to generated board
+        self.board = EASY_BOARDS_LIST[0]
         self.start = (size - 1, 0)
         self.goal = (0, size - 1)
         self.visited = [
             [0 for _ in range(size)] for _ in range(size)
         ]  # TODO: No need to keep track of everything in a Matrix
         self.visited_shapes = set()
-        self.all_shapes = hardcoded_shapes()  # TODO: Change to actual shape identifier
+        self.all_shapes = determine_shapes(self.board)
         self.size = size
         self.visit(self.start)
 
@@ -105,17 +106,14 @@ def generate_board(size) -> list:
     return [[0 for _ in range(size)] for _ in range(size)]
 
 
-# TODO: Change into list of boards from game
-def hardcoded_board() -> list:
-    return [
-        [0, 0, 0, 6, 6, 0],
-        [4, 4, 5, 5, 6, 0],
-        [0, 4, 5, 0, 6, 0],
-        [0, 4, 5, 0, 3, 2],
-        [0, 1, 3, 3, 3, 2],
-        [0, 1, 1, 1, 2, 2],
-    ]
-
-
 def hardcoded_shapes() -> set:
     return {0, 1, 2, 3, 4, 5, 6}
+
+
+def determine_shapes(board: list[list[int]]) -> set:
+    final = set()
+    for line in board:
+        for num in line:
+            if num not in final:
+                final.add(num)
+    return final
