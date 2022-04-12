@@ -224,7 +224,7 @@ def dfs(state: BoardState, max_depth: int) -> list:
 
 def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
     """
-    Auxiliary function to run breadth-first search to find a solution to the game.
+    Auxiliary function to run depth-first search to find a solution to the game.
     
         Parameters:
             state (BoardState): the state that is being currently explored
