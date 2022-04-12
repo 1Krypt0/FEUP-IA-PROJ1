@@ -5,11 +5,10 @@ def handle_main_menu() -> None:
     display_main_menu()
     option = read_option([1, 2, 3])
     if option == 1:
-        print("Going to the difficulty now")
         handle_difficulty_menu()
     elif option == 2:
-        print("Going to the difficulty with AI now")
         AI_GAME = True
+        handle_algo_menu()
     elif option == 3:
         return
 
@@ -26,6 +25,25 @@ def handle_difficulty_menu() -> None:
     elif option == 4:
         print("Choosing an extreme board. Good luck")
     elif option == 5:
+        handle_main_menu()
+
+
+def handle_algo_menu() -> None:
+    display_algo_menu()
+    option = read_option([1, 2, 3, 4, 5, 6, 7])
+    if option == 1:
+        print("Choosing dfs")
+    elif option == 2:
+        print("Choosing a bfs")
+    elif option == 3:
+        print("Choosing ids")
+    elif option == 4:
+        print("Choosing ucs")
+    elif option == 5:
+        print("Choosing greedy")
+    elif option == 6:
+        print("Choosing A*")
+    elif option == 7:
         handle_main_menu()
 
 
@@ -66,4 +84,22 @@ def display_difficulty_menu() -> None:
     print("                           3. Hard")
     print("                           4. Extreme")
     print("                           5. Go back")
-    pass
+
+
+def display_algo_menu() -> None:
+    print("")
+    print("___________       __              __  .__             .____     ")
+    print("\\__    ___/____  |  | __ ____   _/  |_|  |__   ____   |    |    ")
+    print("  |    |  \\__  \\ |  |/ // __ \\  \\   __\\  |  \\_/ __ \\  |    |    ")
+    print("  |    |   / __ \\|    <\\  ___/   |  | |   Y  \\  ___/  |    |___ ")
+    print("  |____|  (____  /__|_ \\\\___  >  |__| |___|  /\\___  > |_______ \\")
+    print("               \\/     \\/    \\/             \\/     \\/          \\/")
+    print("")
+    print("                    Choose your algorithm:                        ")
+    print("                    1. Depth-First Search ")
+    print("                    2. Breadth-First Search")
+    print("                    3. Iterative Deepening Search")
+    print("                    4. Uniform Cost Search")
+    print("                    5. Greedy Search ")
+    print("                    6. A* Search")
+    print("                    7. Go back")
