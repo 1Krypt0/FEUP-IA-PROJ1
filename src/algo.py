@@ -1,75 +1,5 @@
-from state import BoardState, OPERATORS
-
-# board  -> bidimensional board array
-# path   -> array of visited board positions on path
-# shapes -> set of visited shape identifiers
-# start  -> current position on the algorithm, on the maze
-# goal   -> end position, on the maze
-def backtracking(board, start, goal) -> bool:
-
-    startx = start[1]
-    starty = start[0]
-
-    board.visit(start)
-
-    if is_complete(start, goal):
-        if not visited_all(board):
-            board.unvisit(start)
-            return False
-        board.print_board()
-        return True
-
-    # down
-    if check_valid(board, (starty + 1, startx)):
-        if backtracking(board, (starty + 1, startx), goal):
-            return True
-
-    # up
-    if check_valid(board, (starty - 1, startx)):
-        if backtracking(board, (starty - 1, startx), goal):
-            return True
-
-    # right
-    if check_valid(board, (starty, startx + 1)):
-        if backtracking(board, (starty, startx + 1), goal):
-            return True
-
-    # left
-    if check_valid(board, (starty, startx - 1)):
-        if backtracking(board, (starty, startx - 1), goal):
-            return True
-
-    board.unvisit(start)
-
-    return False
-
-
-def bfs(start: BoardState) -> list:
-    queue = [start]
-    solution = None
-
-    while queue:
-        current = queue.pop(0)
-        if is_solved(
-            (current.y, current.x), (current.goal_y, current.goal_x), current.board
-        ):
-            solution = current
-            break
-        for op in OPERATORS:
-            next = op(current)
-            if not next:
-                continue
-            next.previousNode = current
-            queue.append(next)
-
-    path = []
-    if solution:
-        solution.board.print_board()
-        while solution:
-            path.append(solution)
-            solution = solution.previousNode
-
-    return list(reversed(path))
+def is_solved(pos, goal, board):
+    return is_complete(pos, goal) and visited_all(board)
 
 
 # pos  -> current position on the algorithm, on the maze
@@ -80,10 +10,6 @@ def is_complete(pos, goal) -> bool:
 
 def visited_all(board) -> bool:
     return board.visited_shapes == board.all_shapes
-
-
-def is_solved(pos, goal, board):
-    return is_complete(pos, goal) and visited_all(board)
 
 
 def check_bounds(board, pos: list) -> bool:
