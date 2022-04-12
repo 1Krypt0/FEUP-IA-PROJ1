@@ -1,10 +1,11 @@
-from state import BoardState, OPERATORS
 
 # board  -> bidimensional board array
 # path   -> array of visited board positions on path
 # shapes -> set of visited shape identifiers
 # start  -> current position on the algorithm, on the maze
 # goal   -> end position, on the maze
+
+
 def backtracking(board, start, goal) -> bool:
 
     startx = start[1]
@@ -42,35 +43,6 @@ def backtracking(board, start, goal) -> bool:
     board.unvisit(start)
 
     return False
-
-
-def bfs(start: BoardState) -> list:
-    queue = [start]
-    solution = None
-
-    while queue:
-        current = queue.pop(0)
-        if is_solved(
-            (current.y, current.x), (current.goal_y, current.goal_x), current.board
-        ):
-            solution = current
-            break
-        for op in OPERATORS:
-            next = op(current)
-            if not next:
-                continue
-            next.previousNode = current
-            queue.append(next)
-
-    path = []
-    if solution:
-        solution.board.print_board()
-        while solution:
-            path.append(solution)
-            solution = solution.previousNode
-
-    return list(reversed(path))
-
 
 # pos  -> current position on the algorithm, on the maze
 # goal -> end position, on the maze
