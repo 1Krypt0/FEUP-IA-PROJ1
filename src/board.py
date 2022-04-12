@@ -19,6 +19,11 @@ class Board:
         self.size = size
         self.visit(self.start)
 
+    def reset(self):
+        self.visited = [
+            [0 for _ in range(self.size)] for _ in range(self.size)
+        ]  # TODO: No need to keep track of everything in a Matrix
+
     def visit(self, pos) -> None:
         self.visited_shapes.add(self.board[pos[0]][pos[1]])
         self.visited[pos[0]][pos[1]] = 1
