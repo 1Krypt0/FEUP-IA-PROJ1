@@ -1,3 +1,4 @@
+from typing import Callable
 from board import *
 from copy import deepcopy
 from queue import PriorityQueue
@@ -18,6 +19,8 @@ ids
 ucs
 
 """
+
+
 class BoardState:
     """
     A class to represent a state of the board.
@@ -225,7 +228,7 @@ def dfs(state: BoardState, max_depth: int) -> list:
 def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
     """
     Auxiliary function to run depth-first search to find a solution to the game.
-    
+
         Parameters:
             state (BoardState): the state that is being currently explored
             current_depth (int): the depth of the current state
@@ -275,7 +278,7 @@ def ucs(start: BoardState) -> list:
 
         Parameters:
             state (BoardState): the starting state
-            
+
         Returns:
             path (list): the path from the starting state to the final state
     """
@@ -291,11 +294,55 @@ def ucs(start: BoardState) -> list:
             solution = current
             break
         for op in OPERATORS:
-            next = op(current)
-            if not next:
+            nextstate = op(current)
+            if not nextstate:
                 continue
-            next.previous_node = current
-            queue.put((pair[0] + OPERATORS[op], [next]))
+            nextstate.previous_node = current
+            queue.put((pair[0] + OPERATORS[op], [nextstate]))
+
+    return get_solution_from_previous(solution)
+
+
+def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
+    queue = PriorityQueue()
+    queue.put((100, [start]))
+
+    while queue:
+        pair = queue.get()
+        current = pair[1][-1]
+        if is_solved(
+            (current.y, current.x), (current.goal_y, current.goal_x), current.board
+        ):
+            solution = current
+            break
+        for op in OPERATORS:
+            nextstate = op(current)
+            if not nextstate:
+                continue
+            nextstate.previous_node = current
+            queue.put((heuristic(nextstate), [nextstate]))
+
+    return get_solution_from_previous(solution)
+
+
+def a_start(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
+    queue = PriorityQueue()
+    queue.put((100, [start]))
+
+    while queue:
+        pair = queue.get()
+        current = pair[1][-1]
+        if is_solved(
+            (current.y, current.x), (current.goal_y, current.goal_x), current.board
+        ):
+            solution = current
+            break
+        for op in OPERATORS:
+            nextstate = op(current)
+            if not nextstate:
+                continue
+            nextstate.previous_node = current
+            queue.put((OPERATORS[op] + pair[0] + heuristic(nextstate), [nextstate]))
 
     return get_solution_from_previous(solution)
 

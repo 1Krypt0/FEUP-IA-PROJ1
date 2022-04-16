@@ -1,5 +1,6 @@
 from board import Board
-from state import BoardState, bfs, dfs, ids, ucs
+from heuristics import manhattan_distance
+from state import BoardState, bfs, dfs, greedy, ids, ucs
 
 
 def main():
@@ -19,6 +20,14 @@ def main():
     print("UCS")
     state4 = BoardState(board.start, board)
     ucs(state4)
+    board.reset()
+    print("Greedy")
+    state5 = BoardState(board.start, board)
+    greedy(state5, manhattan_distance)
+    print("A*")
+    state6 = BoardState(board.start, board)
+    greedy(state6, manhattan_distance)
+
 
 if __name__ == "__main__":
     main()
