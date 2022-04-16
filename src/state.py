@@ -1,8 +1,10 @@
+from board import Board, check_valid
 from typing import Callable
 from board import *
 from copy import deepcopy
 from queue import PriorityQueue
 from algo import check_valid, is_solved
+from time import sleep
 
 """
 
@@ -85,7 +87,7 @@ class BoardState:
         """
         return isinstance(__o, BoardState) and self.board == __o.board
 
-    def __lt__(self, __o: object()) -> bool:
+    def __lt__(self, __o: object) -> bool:
         """
         Compares two BoardStates
 
@@ -195,6 +197,8 @@ def bfs(start: BoardState) -> list:
 
     while queue:
         current = queue.pop(0)
+        sleep(0.1)
+        print(current.board)
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
         ):
@@ -237,6 +241,8 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
         Returns:
             found (bool): whether a solution has been found
     """
+    sleep(0.1)
+    print(state.board)
     if current_depth == max_depth:
         return False
 
@@ -266,6 +272,8 @@ def ids(state: BoardState) -> list:
     """
     depth = 0
     while True:
+        sleep(0.1)
+        print(state.board)
         if not dfs(state, depth):
             depth += 1
         else:
@@ -288,6 +296,8 @@ def ucs(start: BoardState) -> list:
     while queue:
         pair = queue.get()
         current = pair[1][-1]
+        sleep(0.1)
+        print(current.board)
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
         ):
@@ -363,7 +373,7 @@ def get_solution_from_next(state: BoardState, show: bool = True) -> list:
         path.append(state)
         state = state.next_node
     if show:
-        path[-1].board.print_board()
+        print(path[-1].board)
     return path
 
 
@@ -381,7 +391,7 @@ def get_solution_from_previous(state: BoardState, show=True) -> list:
     path = []
     if state:
         if show:
-            state.board.print_board()
+            print(state.board)
         while state:
             path.append(state)
             state = state.previous_node
