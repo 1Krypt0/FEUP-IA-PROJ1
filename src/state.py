@@ -1,4 +1,6 @@
 from board import Board, check_valid
+from typing import Callable
+from board import *
 from copy import deepcopy
 from queue import PriorityQueue
 from algo import check_valid, is_solved
@@ -302,11 +304,55 @@ def ucs(start: BoardState) -> list:
             solution = current
             break
         for op in OPERATORS:
-            next = op(current)
-            if not next:
+            nextstate = op(current)
+            if not nextstate:
                 continue
-            next.previous_node = current
-            queue.put((pair[0] + OPERATORS[op], [next]))
+            nextstate.previous_node = current
+            queue.put((pair[0] + OPERATORS[op], [nextstate]))
+
+    return get_solution_from_previous(solution)
+
+
+def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
+    queue = PriorityQueue()
+    queue.put((100, [start]))
+
+    while queue:
+        pair = queue.get()
+        current = pair[1][-1]
+        if is_solved(
+            (current.y, current.x), (current.goal_y, current.goal_x), current.board
+        ):
+            solution = current
+            break
+        for op in OPERATORS:
+            nextstate = op(current)
+            if not nextstate:
+                continue
+            nextstate.previous_node = current
+            queue.put((heuristic(nextstate), [nextstate]))
+
+    return get_solution_from_previous(solution)
+
+
+def a_start(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
+    queue = PriorityQueue()
+    queue.put((100, [start]))
+
+    while queue:
+        pair = queue.get()
+        current = pair[1][-1]
+        if is_solved(
+            (current.y, current.x), (current.goal_y, current.goal_x), current.board
+        ):
+            solution = current
+            break
+        for op in OPERATORS:
+            nextstate = op(current)
+            if not nextstate:
+                continue
+            nextstate.previous_node = current
+            queue.put((OPERATORS[op] + pair[0] + heuristic(nextstate), [nextstate]))
 
     return get_solution_from_previous(solution)
 
