@@ -2,7 +2,7 @@ import types
 from board import generate_board
 from game import play
 from heuristics import euclidian_distance, manhattan_distance, visited_l
-from state import BoardState, bfs, dfs, ids, ucs
+from state import BoardState, bfs, dfs, ids, ucs, greedy, a_star
 
 # Global Constants
 consts = types.SimpleNamespace()
@@ -93,10 +93,10 @@ def handle_player(player: int, board: BoardState, heuristic=None) -> None:
             ucs(board)
         case consts.GREEDY:
             print("GREEDY with", board.board, "Board and heuristic", heuristic)
-            pass  # Change to Greedy
+            greedy(board, heuristic)
         case consts.A_STAR:
             print("A* with", board.board, "Board and heuristic", heuristic)
-            pass  # Change to A*
+            a_star(board, heuristic)
 
 
 def read_option(acceptable_options: list) -> int:
