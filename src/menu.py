@@ -14,14 +14,15 @@ A_STAR = 6
 
 
 def handle_main_menu() -> None:
-    display_main_menu()
-    option = read_option([1, 2, 3])
-    if option == 1:
-        handle_difficulty_menu(PLAYER)
-    elif option == 2:
-        handle_algo_menu()
-    elif option == 3:
-        return
+    while True:
+        display_main_menu()
+        option = read_option([1, 2, 3])
+        if option == 1:
+            handle_difficulty_menu(PLAYER)
+        elif option == 2:
+            handle_algo_menu()
+        elif option == 3:
+            return
 
 
 def handle_algo_menu() -> None:
