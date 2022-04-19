@@ -69,7 +69,8 @@ class Board:
         final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾\n"
         return final
 
-
+# pos  -> current position on the algorithm, on the maze
+# goal -> end position, on the maze
 def is_complete(pos, goal) -> bool:
     return pos == goal
 

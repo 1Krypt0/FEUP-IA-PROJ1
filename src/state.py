@@ -3,7 +3,7 @@ from typing import Callable
 from board import *
 from copy import deepcopy
 from queue import PriorityQueue
-from algo import check_valid, is_solved
+from board import check_valid, is_solved
 from time import sleep
 
 """
