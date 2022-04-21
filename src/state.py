@@ -3,7 +3,7 @@ from typing import Callable
 from board import *
 from copy import deepcopy
 from queue import PriorityQueue
-from algo import check_valid, is_solved
+from board import check_valid, is_solved
 from time import sleep
 
 """
@@ -350,7 +350,7 @@ def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float]) ->
     return get_solution_from_previous(solution)
 
 
-def a_start(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
+def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
     queue = PriorityQueue()
     queue.put((100, [start]))
 

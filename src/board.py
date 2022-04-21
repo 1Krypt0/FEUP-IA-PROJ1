@@ -34,42 +34,77 @@ class Board:
         self.visited[pos[0]][pos[1]] = 0
 
     def __repr__(self) -> str:
-        final = "\n"
-        final += "   0 1 2 3 4 5 "
+        print(self.size)
+        padding_left = 3
+        padding_right = 2
+        padding_top = "  _" + self.size*"____"
+        padding_bot = "  ‾" + self.size*"‾‾‾‾"
+        number_space = "   "
+        if len(self.all_shapes) >= 10:
+            padding_left += 1
+            padding_right += 1
+            padding_top += self.size*"_"
+            padding_bot += self.size*"‾"
+            number_space = "    "
+
+
+        final = "\n "
+        for i in range(self.size):
+            final += number_space + str(i)
         final += "\n"
-        final += "  _____________\n"
+        final += padding_top
+        final += "\n"
         for line in range(self.size):
             final += str(line) + " "
             for col in range(self.size):
                 final += (
                     "|"
                     + RED * self.visited[line][col]
-                    + str(self.board[line][col])
+                    + str(self.board[line][col]).rjust(padding_right).ljust(padding_left)
                     + RESET
                 )
             final += "|\n"
-        final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾\n"
+        final += padding_bot
+        final += "\n"
         return final
 
     def __str__(self) -> str:
-        final = "\n"
-        final += "   0 1 2 3 4 5 "
+        print(self.size)
+        padding_left = 3
+        padding_right = 2
+        padding_top = "  _" + self.size*"____"
+        padding_bot = "  ‾" + self.size*"‾‾‾‾"
+        number_space = "   "
+        if len(self.all_shapes) >= 10:
+            padding_left += 1
+            padding_right += 1
+            padding_top += self.size*"_"
+            padding_bot += self.size*"‾"
+            number_space = "    "
+
+
+        final = "\n "
+        for i in range(self.size):
+            final += number_space + str(i)
         final += "\n"
-        final += "  _____________\n"
+        final += padding_top
+        final += "\n"
         for line in range(self.size):
             final += str(line) + " "
             for col in range(self.size):
                 final += (
                     "|"
                     + RED * self.visited[line][col]
-                    + str(self.board[line][col])
+                    + str(self.board[line][col]).rjust(padding_right).ljust(padding_left)
                     + RESET
                 )
             final += "|\n"
-        final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾\n"
+        final += padding_bot
+        final += "\n"
         return final
 
-
+# pos  -> current position on the algorithm, on the maze
+# goal -> end position, on the maze
 def is_complete(pos, goal) -> bool:
     return pos == goal
 

@@ -1,6 +1,6 @@
 from copy import deepcopy
 from typing import Callable
-from algo import is_solved
+from board import is_solved
 from state import (
     BoardState,
     get_solution_from_previous,
