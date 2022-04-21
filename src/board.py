@@ -37,23 +37,22 @@ class Board:
         print(self.size)
         padding_left = 3
         padding_right = 2
-        padding_top = ""
-        padding_bot = ""
-        numbers_top = "    0   1   2   3   4   5 "
+        padding_top = "  _" + self.size*"____"
+        padding_bot = "  ‾" + self.size*"‾‾‾‾"
+        number_space = "   "
         if len(self.all_shapes) >= 10:
             padding_left += 1
             padding_right += 1
-            padding_top += "_____________________"
-            padding_bot += "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
-            numbers_top = "     0    1    2    3    4    5    6    7    8 "
+            padding_top += self.size*"_"
+            padding_bot += self.size*"‾"
+            number_space = "    "
 
 
-        final = "\n"
+        final = "\n "
         for i in range(self.size):
-            final += "    " + i
-        # final += numbers_top
+            final += number_space + str(i)
         final += "\n"
-        final += "  _________________________" + padding_top
+        final += padding_top
         final += "\n"
         for line in range(self.size):
             final += str(line) + " "
@@ -65,7 +64,7 @@ class Board:
                     + RESET
                 )
             final += "|\n"
-        final += "  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾" + padding_bot
+        final += padding_bot
         final += "\n"
         return final
 
@@ -87,7 +86,6 @@ class Board:
         final = "\n "
         for i in range(self.size):
             final += number_space + str(i)
-        # final += numbers_top
         final += "\n"
         final += padding_top
         final += "\n"
