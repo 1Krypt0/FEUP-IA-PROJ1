@@ -209,12 +209,16 @@ def bfs(start: BoardState) -> list:
         Returns:
             path (list): the path from the starting state to the final state
     """
+    start_time = time.time()
+    global node_count
+    node_count = 0
     queue = [start]
     solution = None
 
     while queue:
         current = queue.pop(0)
-        sleep(0.1)
+        node_count += 1
+        time.sleep(0.1)
         print(current.board)
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
@@ -227,6 +231,9 @@ def bfs(start: BoardState) -> list:
                 continue
             next.previous_node = current
             queue.append(next)
+
+    end_time = time.time()
+    print("Took", end_time - start_time, "seconds and visited", node_count, "nodes")
 
     return get_solution_from_previous(solution)
 
