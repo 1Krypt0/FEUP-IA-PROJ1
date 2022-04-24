@@ -4,7 +4,9 @@ from board import *
 from copy import deepcopy
 from queue import PriorityQueue
 from board import check_valid, is_solved
-from time import sleep
+import time
+
+node_count = 0
 
 """
 
@@ -207,12 +209,16 @@ def bfs(start: BoardState) -> list:
         Returns:
             path (list): the path from the starting state to the final state
     """
+    start_time = time.time()
+    global node_count
+    node_count = 0
     queue = [start]
     solution = None
 
     while queue:
         current = queue.pop(0)
-        sleep(0.1)
+        node_count += 1
+        time.sleep(0.1)
         print(current.board)
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
@@ -226,10 +232,13 @@ def bfs(start: BoardState) -> list:
             next.previous_node = current
             queue.append(next)
 
+    end_time = time.time()
+    print("Took", end_time - start_time, "seconds and visited", node_count, "nodes")
+
     return get_solution_from_previous(solution)
 
 
-def dfs(state: BoardState, max_depth: int) -> list:
+def dfs(state: BoardState, max_depth: int, show_perf=True) -> list:
     """
     Run depth-first search to find a solution to the game.
 
@@ -240,8 +249,15 @@ def dfs(state: BoardState, max_depth: int) -> list:
         Returns:
             path (list): the path from the starting state to the final state
     """
-    if dfs_rec(state, 0, max_depth):
-        return get_solution_from_next(state)
+    global node_count
+    node_count = 0
+    start = time.time()
+    found = dfs_rec(state, 0, max_depth)
+    if found:
+        end = time.time()
+        get_solution_from_next(state)
+        if show_perf:
+            print("Took", end - start, "seconds and visited", node_count, "nodes")
 
 
 def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
@@ -256,7 +272,9 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
         Returns:
             found (bool): whether a solution has been found
     """
-    sleep(0.1)
+    time.sleep(0.1)
+    global node_count
+    node_count += 1
     print(state.board)
     if current_depth == max_depth:
         return False
@@ -285,13 +303,18 @@ def ids(state: BoardState) -> list:
         Returns:
             path (list): the path from the starting state to the final state
     """
+    global node_count
+    node_count = 0
+    start = time.time()
     depth = 0
     while True:
-        sleep(0.1)
+        time.sleep(0.1)
         print(state.board)
-        if not dfs(state, depth):
+        if not dfs(state, depth, False):
             depth += 1
         else:
+            end = time.time()
+            print("Took", end - start, "seconds and visited", node_count, "nodes")
             return get_solution_from_next(state, False)
 
 
@@ -305,13 +328,17 @@ def ucs(start: BoardState) -> list:
         Returns:
             path (list): the path from the starting state to the final state
     """
+    start_time = time.time()
+    global node_count
+    node_count = 0
     queue = PriorityQueue()
     queue.put((0, [start]))
 
     while queue:
         pair = queue.get()
         current = pair[1][-1]
-        sleep(0.1)
+        node_count += 1
+        time.sleep(0.1)
         print(current.board)
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
@@ -325,16 +352,23 @@ def ucs(start: BoardState) -> list:
             nextstate.previous_node = current
             queue.put((pair[0] + OPERATORS[op], [nextstate]))
 
+    end_time = time.time()
+    print("Took", end_time - start_time, "seconds and visited", node_count, "nodes")
     return get_solution_from_previous(solution)
 
 
 def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
+
+    start_time = time.time()
+    global node_count
+    node_count = 0
     queue = PriorityQueue()
     queue.put((100, [start]))
 
     while queue:
         pair = queue.get()
         current = pair[1][-1]
+        node_count += 1
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
         ):
@@ -347,10 +381,16 @@ def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float]) ->
             nextstate.previous_node = current
             queue.put((heuristic(nextstate), [nextstate]))
 
+    end_time = time.time()
+    print("Took", end_time - start_time, "seconds and visited", node_count, "nodes")
     return get_solution_from_previous(solution)
 
 
 def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
+
+    start_time = time.time()
+    global node_count
+    node_count = 0
     queue = PriorityQueue()
     queue.put((100, [start]))
 
@@ -368,6 +408,9 @@ def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float]) ->
                 continue
             nextstate.previous_node = current
             queue.put((OPERATORS[op] + pair[0] + heuristic(nextstate), [nextstate]))
+
+    end_time = time.time()
+    print("Took", end_time - start_time, "seconds and visited", node_count, "nodes")
 
     return get_solution_from_previous(solution)
 
