@@ -2,8 +2,19 @@ import types
 import time
 from board import generate_board
 from game import play
-from heuristics import euclidian_distance, manhattan_distance, visited_l
-from state import BoardState, bfs, dfs, ids, ucs, greedy, a_star
+from state import (
+    BoardState,
+    bfs,
+    dfs,
+    ids,
+    ucs,
+    greedy,
+    a_star,
+    run_perf_test,
+    euclidian_distance,
+    manhattan_distance,
+    visited_l,
+)
 
 # Global Constants
 consts = types.SimpleNamespace()
@@ -19,7 +30,7 @@ consts.A_STAR = 6
 def handle_main_menu() -> None:
     while True:
         display_main_menu()
-        option = read_option([0, 1, 2])
+        option = read_option([0, 1, 2, 3])
         match option:
             case 0:
                 return
@@ -27,6 +38,8 @@ def handle_main_menu() -> None:
                 handle_difficulty_menu(consts.PLAYER)
             case 2:
                 handle_algo_menu()
+            case 3:
+                run_perf_test()
 
 
 def handle_algo_menu() -> None:
@@ -126,6 +139,7 @@ def display_main_menu() -> None:
     print("\t\t\t0. Exit")
     print("\t\t\t1. I want to play!")
     print("\t\t\t2. Let the Computer play!")
+    print("\t\t\t3. Run performance test!")
 
 
 def display_difficulty_menu() -> None:
