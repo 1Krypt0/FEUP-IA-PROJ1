@@ -7,7 +7,7 @@
 
 ### Building and Running
 
-To execute the program, run `python3 main.py`
+To execute the program, run `python3 main.py`, while being inside the src folder
 
 ### How to Play
 
