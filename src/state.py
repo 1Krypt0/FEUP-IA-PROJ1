@@ -372,7 +372,7 @@ def ucs(start: BoardState, intermediate=True) -> list:
 
     end_time = time.time()
     print("Took", end_time - start_time, "seconds and visited", node_count, "nodes")
-    return get_solution_from_previous(solution)
+    return get_solution_from_previous(solution, True)
 
 
 def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float], intermediate=True) -> list:
@@ -417,6 +417,7 @@ def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float], in
 
     while queue:
         pair = queue.get()
+        node_count += 1
         current = pair[1][-1]
         if intermediate:
             time.sleep(0.1)
@@ -473,6 +474,7 @@ def get_solution_from_previous(state: BoardState, show=True) -> list:
     path = []
     if state:
         if show:
+            print("here")
             print(state.board)
         while state:
             path.append(state)
