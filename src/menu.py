@@ -1,4 +1,5 @@
 import types
+import time
 from board import generate_board
 from game import play
 from heuristics import euclidian_distance, manhattan_distance, visited_l

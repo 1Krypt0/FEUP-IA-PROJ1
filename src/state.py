@@ -4,7 +4,9 @@ from board import *
 from copy import deepcopy
 from queue import PriorityQueue
 from board import check_valid, is_solved
-from time import sleep
+import time
+
+node_count = 0
 
 """
 
@@ -240,8 +242,14 @@ def dfs(state: BoardState, max_depth: int) -> list:
         Returns:
             path (list): the path from the starting state to the final state
     """
-    if dfs_rec(state, 0, max_depth):
-        return get_solution_from_next(state)
+    global node_count
+    node_count = 0
+    start = time.time()
+    found = dfs_rec(state, 0, max_depth)
+    if found:
+        end = time.time()
+        get_solution_from_next(state)
+        print("Took", end - start, "seconds and visited", node_count, "nodes")
 
 
 def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
@@ -256,7 +264,9 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
         Returns:
             found (bool): whether a solution has been found
     """
-    sleep(0.1)
+    time.sleep(0.1)
+    global node_count
+    node_count += 1
     print(state.board)
     if current_depth == max_depth:
         return False
