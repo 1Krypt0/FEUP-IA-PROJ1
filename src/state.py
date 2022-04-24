@@ -4,6 +4,7 @@ from board import *
 from copy import deepcopy
 from queue import PriorityQueue
 from board import check_valid, is_solved
+from math import sqrt
 import time
 
 node_count = 0
@@ -199,7 +200,20 @@ OPERATORS = {move_up: 1, move_down: 1, move_left: 1, move_right: 1}
 # Search algorithms
 
 
-def bfs(start: BoardState) -> list:
+def manhattan_distance(node: BoardState) -> int:
+    return abs(node.x - node.goal_x) + abs(node.y - node.goal_y)
+
+
+def visited_l(node: BoardState) -> int:
+    return len(node.board.all_shapes.difference(node.board.visited_shapes))
+
+
+def euclidian_distance(node: BoardState) -> float:
+    return int(sqrt(((node.goal_x - node.x) ** 2) + ((node.goal_y - node.y) ** 2)))
+
+
+
+def bfs(start: BoardState, intermediate=True) -> list:
     """
     Run breadth-first search to find a solution to the game.
 
@@ -218,8 +232,9 @@ def bfs(start: BoardState) -> list:
     while queue:
         current = queue.pop(0)
         node_count += 1
-        time.sleep(0.1)
-        print(current.board)
+        if intermediate:
+            time.sleep(0.1)
+            print(current.board)
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
         ):
@@ -238,7 +253,7 @@ def bfs(start: BoardState) -> list:
     return get_solution_from_previous(solution)
 
 
-def dfs(state: BoardState, max_depth: int, show_perf=True) -> list:
+def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True) -> list:
     """
     Run depth-first search to find a solution to the game.
 
@@ -252,15 +267,15 @@ def dfs(state: BoardState, max_depth: int, show_perf=True) -> list:
     global node_count
     node_count = 0
     start = time.time()
-    found = dfs_rec(state, 0, max_depth)
+    found = dfs_rec(state, 0, max_depth, intermediate)
     if found:
         end = time.time()
-        get_solution_from_next(state)
         if show_perf:
             print("Took", end - start, "seconds and visited", node_count, "nodes")
+        return get_solution_from_next(state)
 
 
-def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
+def dfs_rec(state: BoardState, current_depth: int, max_depth: int, intermediate=True) -> bool:
     """
     Auxiliary function to run depth-first search to find a solution to the game.
 
@@ -272,10 +287,11 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
         Returns:
             found (bool): whether a solution has been found
     """
-    time.sleep(0.1)
     global node_count
     node_count += 1
-    print(state.board)
+    if intermediate:
+        time.sleep(0.1)
+        print(state.board)
     if current_depth == max_depth:
         return False
 
@@ -287,13 +303,13 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int) -> bool:
         if not next:
             continue
         state.next_node = next
-        if dfs_rec(next, current_depth + 1, max_depth):
+        if dfs_rec(next, current_depth + 1, max_depth, intermediate):
             return True
 
     return False
 
 
-def ids(state: BoardState) -> list:
+def ids(state: BoardState, intermediate=True) -> list:
     """
     Run iterative deepening search to find a solution to the game.
 
@@ -308,9 +324,10 @@ def ids(state: BoardState) -> list:
     start = time.time()
     depth = 0
     while True:
-        time.sleep(0.1)
-        print(state.board)
-        if not dfs(state, depth, False):
+        if intermediate:
+            time.sleep(0.1)
+            print(state.board)
+        if not dfs(state, depth, False, False):
             depth += 1
         else:
             end = time.time()
@@ -318,7 +335,7 @@ def ids(state: BoardState) -> list:
             return get_solution_from_next(state, False)
 
 
-def ucs(start: BoardState) -> list:
+def ucs(start: BoardState, intermediate=True) -> list:
     """
     Run uniform cost search to find a solution to the game.
 
@@ -338,8 +355,9 @@ def ucs(start: BoardState) -> list:
         pair = queue.get()
         current = pair[1][-1]
         node_count += 1
-        time.sleep(0.1)
-        print(current.board)
+        if intermediate:
+            time.sleep(0.1)
+            print(current.board)
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
         ):
@@ -357,7 +375,7 @@ def ucs(start: BoardState) -> list:
     return get_solution_from_previous(solution)
 
 
-def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
+def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float], intermediate=True) -> list:
 
     start_time = time.time()
     global node_count
@@ -369,6 +387,9 @@ def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float]) ->
         pair = queue.get()
         current = pair[1][-1]
         node_count += 1
+        if intermediate:
+            time.sleep(0.1)
+            print(current.board)
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
         ):
@@ -386,7 +407,7 @@ def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float]) ->
     return get_solution_from_previous(solution)
 
 
-def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float]) -> list:
+def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float], intermediate=True) -> list:
 
     start_time = time.time()
     global node_count
@@ -397,6 +418,9 @@ def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float]) ->
     while queue:
         pair = queue.get()
         current = pair[1][-1]
+        if intermediate:
+            time.sleep(0.1)
+            print(current.board)
         if is_solved(
             (current.y, current.x), (current.goal_y, current.goal_x), current.board
         ):
@@ -455,3 +479,37 @@ def get_solution_from_previous(state: BoardState, show=True) -> list:
             state = state.previous_node
 
     return list(reversed(path))
+
+def run_perf_test():
+    board = generate_board(1)
+    board_state = BoardState(board.start, board)
+    algs = {bfs, dfs, ids, ucs, greedy, a_star}
+    print("BFS")
+    bfs(board_state, False)
+    board.reset()
+    print("DFS")
+    dfs(board_state, 20, True, False)
+    board.reset()
+    print("IDS")
+    ids(board_state, False)
+    board.reset()
+    print("UCS")
+    ucs(board_state, False)
+    board.reset()
+    print("GREEDY - MANHATTAN")
+    greedy(board_state, manhattan_distance, False)
+    board.reset()
+    print("GREEDY - EUCLIDEAN")
+    greedy(board_state, euclidian_distance, False)
+    board.reset()
+    print("GREEDY - VISITED LS")
+    greedy(board_state, visited_l, False)
+    board.reset()
+    print("A* - MANHATTAN")
+    a_star(board_state, manhattan_distance, False)
+    board.reset()
+    print("A* - EUCLIDEAN")
+    a_star(board_state, euclidian_distance, False)
+    board.reset()
+    print("A* - VISITED LS")
+    a_star(board_state, visited_l, False)
