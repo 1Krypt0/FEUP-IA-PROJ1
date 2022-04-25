@@ -10,13 +10,13 @@ from state import (
     move_right,
 )
 from board import is_solved
-from gui import run_game
+# from gui import run_game
 
 
 def play(board: BoardState) -> list:
     while not is_solved((board.x, board.y), (board.goal_x, board.goal_y), board.board):
         print(board.board)
-        run_game(board.board)
+        # run_game(board.board)
         move = choose_move()
         dummy = deepcopy(board)
         if move(dummy) is None:

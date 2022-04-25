@@ -1,5 +1,4 @@
 import types
-import time
 from board import generate_board
 from game import play
 from state import (
@@ -74,8 +73,6 @@ def handle_heuristics_menu(state: int) -> None:
             handle_difficulty_menu(state, euclidian_distance)
         case 3:
             handle_difficulty_menu(state, visited_l)
-        case 4:
-            handle_algo_menu()
 
 
 def handle_difficulty_menu(player: int, heuristic=None) -> None:
@@ -154,14 +151,14 @@ def display_difficulty_menu() -> None:
 
 def display_algo_menu() -> None:
     display_banner()
-    print("\t\tChoose your algorithm:")
-    print("\t\t\t0. Go back")
-    print("\t\t\t1. Depth-First Search ")
-    print("\t\t\t2. Breadth-First Search")
-    print("\t\t\t3. Iterative Deepening Search")
-    print("\t\t\t4. Uniform Cost Search")
-    print("\t\t\t5. Greedy Search ")
-    print("\t\t\t6. A* Search")
+    "\t\tChoose your algorithm:"
+    "\t\t\t0. Go back"
+    "\t\t\t1. Depth-First Search "
+    "\t\t\t2. Breadth-First Search"
+    "\t\t\t3. Iterative Deepening Search"
+    "\t\t\t4. Uniform Cost Search"
+    "\t\t\t5. Greedy Search "
+    "\t\t\t6. A* Search"
 
 
 def display_heuristics_menu() -> None:
