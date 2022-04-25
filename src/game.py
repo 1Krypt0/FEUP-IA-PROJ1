@@ -1,3 +1,4 @@
+import pygame
 from copy import deepcopy
 from typing import Callable
 from state import (
@@ -10,13 +11,50 @@ from state import (
     move_right,
 )
 from board import is_solved
-# from gui import run_game
+from pygame_draw import draw_board
 
+def pygame_play(board: BoardState, window):
+    while not is_solved((board.x, board.y), (board.goal_x, board.goal_y), board.board):
+        draw_board(window, board)
+        move = pygame_choose_move()
+        dummy = deepcopy(board)
+        if move(dummy) is None:
+            print("That's an invalid move! I'm staying right where I am")
+            continue
+        else:
+            board = move(board)
+    return get_solution_from_previous(board)
+
+
+def pygame_choose_move() -> Callable[[BoardState], BoardState | None]:
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                match event.key:
+                    case pygame.K_ESCAPE:
+                        return
+                    case pygame.K_UP:
+                        return move_up
+                    case pygame.K_w:
+                        return move_up
+                    case pygame.K_LEFT:
+                        return move_left
+                    case pygame.K_a:
+                        return move_left
+                    case pygame.K_DOWN:
+                        return move_down
+                    case pygame.K_s:
+                        return move_down
+                    case pygame.K_RIGHT:
+                        return move_right
+                    case pygame.K_d:
+                        return move_right
+                    case pygame.K_b:
+                        return move_back
 
 def play(board: BoardState) -> list:
     while not is_solved((board.x, board.y), (board.goal_x, board.goal_y), board.board):
         print(board.board)
-        # run_game(board.board)
         move = choose_move()
         dummy = deepcopy(board)
         if move(dummy) is None:
