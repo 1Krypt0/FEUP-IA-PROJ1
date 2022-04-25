@@ -1,6 +1,5 @@
 from copy import deepcopy
 from typing import Callable
-from board import is_solved
 from state import (
     BoardState,
     get_solution_from_previous,
@@ -10,7 +9,7 @@ from state import (
     move_left,
     move_right,
 )
-
+from board import is_solved
 from gui import run_game
 
 
@@ -24,7 +23,6 @@ def play(board: BoardState) -> list:
             print("That's an invalid move! I'm staying right where I am")
             continue
         else:
-
             board = move(board)
     return get_solution_from_previous(board)
 
