@@ -63,7 +63,7 @@ def draw_final(window, board: Board, duration, node_count, algo, heuristic = Non
     ]
     if algo == "Player":
         description = []
-    draw_board(window, board, title, description)
+    draw_board(window, board, title, description, final=True)
     time.sleep(2)
 
 def draw_player(window, board: Board) -> None:
@@ -79,7 +79,7 @@ def draw_player(window, board: Board) -> None:
 
     draw_board(window, board, title, description)
 
-def draw_board(window, board: Board, title, description) -> None:
+def draw_board(window, board: Board, title, description, final=False) -> None:
     window.fill(BG_COLOR)
 
     desc_title_size = 30
@@ -118,6 +118,8 @@ def draw_board(window, board: Board, title, description) -> None:
             pygame.draw.rect(window, WHITE, pygame.Rect(x, y, CELL_SIZE, CELL_SIZE),0)
             # get number color
             number_color = RED if (board.visited[row][col]) else BLACK
+            if final and row == board_size-1 and col == 0:
+                number_color = RED
             # get number and numberpos
             number = number_font.render(str(board.board[row][col]), True, number_color)
             font_pos_x, font_pos_y = (x+GAME_FONT_SIZE/3, y-GAME_FONT_SIZE/6)
@@ -130,4 +132,5 @@ def draw_board(window, board: Board, title, description) -> None:
 
             x += SQUARE_SIZE
         y += SQUARE_SIZE
+
     pygame.display.update()
