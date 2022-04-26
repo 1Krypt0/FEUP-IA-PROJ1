@@ -51,7 +51,7 @@ def pygame_choose_move() -> Callable[[BoardState], BoardState | None]:
                         return move_right
                     case pygame.K_d:
                         return move_right
-                    case pygame.K_b:
+                    case pygame.K_BACKSPACE:
                         return move_back
 
 def play(board: BoardState) -> list:

@@ -77,7 +77,7 @@ def draw_player(window, board: Board) -> None:
         "DOWN or \'s\' to move down",
         "LEFT or \'a\' to move left",
         "RIGHT or \'d\' to move right",
-        "\'b\' to move back",
+        "BACKSPACE to move back",
         "ESC to quit"
     ]
 
