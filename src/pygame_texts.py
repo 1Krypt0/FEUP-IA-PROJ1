@@ -21,8 +21,8 @@ texts = [
     [
         "Please select an option:",
         "1. I want to play!",
-        # "2. Let the Computer play!",
-        # "3. Run performance test!",
+        "2. Let the Computer play!",
+        "3. Run performance test!",
         "Esc - Exit"
     ],
     [

@@ -123,7 +123,7 @@ def handle_player(player: int, board: BoardState, heuristic=None) -> None:
             dfs(board, 20)
         case consts.BFS:
             print("BFS with", board.board, "Board and heuristic", heuristic)
-            bfs(board)
+            bfs(board, True)
         case consts.IDS:
             print("IDS with", board.board, "Board and heuristic", heuristic)
             ids(board)

@@ -1,5 +1,5 @@
 import pygame
-from state import BoardState
+from board import Board
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -17,20 +17,17 @@ GAME_FONT_SIZE = CELL_SIZE-20
 TEXT_BEGIN_X, TEXT_BEGIN_Y, TEXT_OFFSET_Y = 50, 50, 50
 OPTION_BEGIN_X = 100
 
+def draw_logo(window):
+    logo = pygame.image.load('logo.png')
+    window.blit(logo, (114, 100))
+
 def draw_menu(window, menu: list) -> None:
     window.fill(BG_COLOR)
 
     font_title = pygame.font.SysFont("Times New Roman", 30)
     font_option = pygame.font.SysFont("Times New Roman", 20)
-    logo_size = 30
 
-    # logo_x, logo_y = 50, 200
-    # logo = texts[text_num.BANNER]
-    # for part in logo:
-    #     part_rect = pygame.Rect(logo_x, logo_y, GAME_FONT_SIZE, GAME_FONT_SIZE)
-    #     part_text = font_title.render(part, True, BLACK)
-    #     window.blit(part_text, part_rect)
-    #     logo_y += logo_size
+    draw_logo(window)
 
     item_num = len(menu)
     y = HEIGHT/2 - item_num/2*50
@@ -45,7 +42,7 @@ def draw_menu(window, menu: list) -> None:
     pygame.display.update()
 
         
-def draw_board(window, board_state: BoardState) -> None:
+def draw_board(window, board: Board) -> None:
     window.fill(BG_COLOR)
 
     desc_title_size = 30
@@ -75,7 +72,6 @@ def draw_board(window, board_state: BoardState) -> None:
 
     number_font = pygame.font.SysFont("Times New Roman", 55)
 
-    board = board_state.board
     board_size = len(board.board)
     board_offset_x = BOARD_POS_X-board_size*SQUARE_SIZE/2
     board_offset_y = BOARD_POS_Y-board_size*SQUARE_SIZE/2

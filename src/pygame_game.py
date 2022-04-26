@@ -42,19 +42,19 @@ def run_game():
     pygame.quit()
     
 
-def handle_main_menu(window) -> None:
-    draw_menu(window, texts[text_num.MAIN_MENU])
+def handle_main_menu(game_window) -> None:
+    draw_menu(game_window, texts[text_num.MAIN_MENU])
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             match event.key:
                 case pygame.K_ESCAPE:
                     pygame.quit()
                 case pygame.K_1:
-                    handle_difficulty_menu(window, consts.PLAYER)
-                # case pygame.K_2:
-                #     handle_algorithms_menu(window)
-                # case pygame.K_3:
-                #     run_perf_test()
+                    handle_difficulty_menu(game_window, consts.PLAYER)
+                case pygame.K_2:
+                    handle_algorithms_menu(game_window)
+                case pygame.K_3:
+                    run_perf_test(pygame_game = True, window=game_window)
 
 def handle_algorithms_menu(window) -> None:
     draw_menu(window, texts[text_num.ALGORITHMS])
@@ -123,19 +123,19 @@ def handle_heuristics_menu(window, state: int) -> None:
                         handle_difficulty_menu(state, visited_l)
                         return
 
-def handle_player(window, player: int, board: BoardState, heuristic=None) -> None:
+def handle_player(game_window, player: int, board: BoardState, heuristic=None) -> None:
     match player:
         case consts.PLAYER:
-            pygame_play(board, window)
+            pygame_play(board, game_window)
         case consts.DFS:
-            dfs(board, 20)
+            dfs(board, 20, pygame_game=True, window=game_window)
         case consts.BFS:
-            bfs(board)
+            bfs(board, pygame_game=True, window=game_window)
         case consts.IDS:
-            ids(board)
+            ids(board, pygame_game=True, window=game_window)
         case consts.UCS:
-            ucs(board)
+            ucs(board, pygame_game=True, window=game_window)
         case consts.GREEDY:
-            greedy(board, heuristic)
+            greedy(board, heuristic, pygame_game=True, window=game_window)
         case consts.A_STAR:
-            a_star(board, heuristic)
+            a_star(board, heuristic, pygame_game=True, window=game_window)

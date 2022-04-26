@@ -15,7 +15,7 @@ from pygame_draw import draw_board
 
 def pygame_play(board: BoardState, window):
     while not is_solved((board.x, board.y), (board.goal_x, board.goal_y), board.board):
-        draw_board(window, board)
+        draw_board(window, board.board)
         move = pygame_choose_move()
         dummy = deepcopy(board)
         if move(dummy) is None:
