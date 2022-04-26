@@ -575,7 +575,7 @@ def get_solution_from_next(state: BoardState, show: bool = True, pygame_game=Fal
     if show:
         print("Took", duration, "seconds and visited", node_count, "nodes")
         if pygame_game:
-            draw_final(window, path[-1].board, duration, node_count, algo)
+            draw_final(window, path[-1].board, duration, node_count, algo, heuristic)
         else:
             print(path[-1].board)
     return path
@@ -598,12 +598,13 @@ def get_solution_from_previous(state: BoardState, show=True, pygame_game=False, 
         Returns:
             path (list): the path from the starting state to the final state
     """
+    
     path = []
     if state:
         if show:
             print("Took", duration, "seconds and visited", node_count, "nodes")
             if pygame_game:
-                draw_final(window, state.board, duration, node_count, algo)
+                draw_final(window, state.board, duration, node_count, algo, heuristic)
             else:
                 print(state.board)
         while state:
