@@ -24,7 +24,6 @@ def draw_logo(window):
 
 def draw_menu(window, menu: list) -> None:
     window.fill(BG_COLOR)
-
     font_title = pygame.font.SysFont("Times New Roman", 30)
     font_option = pygame.font.SysFont("Times New Roman", 20)
 
@@ -43,7 +42,6 @@ def draw_menu(window, menu: list) -> None:
     pygame.display.update()
 
 def draw_intermediate(window, board: Board, algo, heuristic=None) -> None:
-    window.fill(BG_COLOR)
     title = "Calculating path"
     description = [
         "Algorithm: " + algo
@@ -53,7 +51,6 @@ def draw_intermediate(window, board: Board, algo, heuristic=None) -> None:
     draw_board(window, board, title, description)
 
 def draw_final(window, board: Board, duration, node_count) -> None:
-    window.fill(BG_COLOR)
     title = "Final board:"
     description = [
         "Board obtained after: " + str(duration),
@@ -63,8 +60,6 @@ def draw_final(window, board: Board, duration, node_count) -> None:
     time.sleep(5)
 
 def draw_player(window, board: Board) -> None:
-    window.fill(BG_COLOR)
-
     title = "Instructions:"
     description = [
         "UP or \'w\' to move up",
