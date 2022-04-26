@@ -3,7 +3,6 @@
 ### Requirements
 
 - Python 3.9
-- pygame
 
 ### Building and Running
 
