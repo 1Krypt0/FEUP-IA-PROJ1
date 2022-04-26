@@ -27,6 +27,9 @@ consts.A_STAR = 6
 
 
 def handle_main_menu() -> None:
+    """
+    Handle the choice on the main menu, calling the appropriate functions
+    """
     while True:
         display_main_menu()
         option = read_option([0, 1, 2, 3])
@@ -42,6 +45,9 @@ def handle_main_menu() -> None:
 
 
 def handle_algo_menu() -> None:
+    """
+    Handle the choice on the algorithms menu, calling the appropriate functions
+    """
     display_algo_menu()
     option = read_option([0, 1, 2, 3, 4, 5, 6])
     match option:
@@ -61,7 +67,13 @@ def handle_algo_menu() -> None:
             handle_heuristics_menu(consts.A_STAR)
 
 
-def handle_heuristics_menu(state: int) -> None:
+def handle_heuristics_menu(algorithm: int) -> None:
+    """
+    Handle the choice on the heuristics menu, calling the appropriate functions
+
+        Parameters:
+            algorithm (int): the algorithm used
+    """
     display_heuristics_menu()
     option = read_option([0, 1, 2, 3])
     match option:
@@ -76,6 +88,14 @@ def handle_heuristics_menu(state: int) -> None:
 
 
 def handle_difficulty_menu(player: int, heuristic=None) -> None:
+    """
+    Handle the choice on the difficulty menu, generating addequate
+    board and calling the appropriate functions
+
+        Parameters:
+            player (int): the method of playing (human, algorithms)
+            heuristic (function): the heuristic function (when needed) 
+    """
     display_difficulty_menu()
     option = read_option([0, 1, 2, 3, 4])
     if option == 0:
@@ -86,6 +106,14 @@ def handle_difficulty_menu(player: int, heuristic=None) -> None:
 
 
 def handle_player(player: int, board: BoardState, heuristic=None) -> None:
+    """
+    Handle the choice on the game menu
+
+        Parameters:
+            player (int): the method of playing
+            board (BoardState): the starting board state
+            heuristic (function): the heuristic function (when needed)
+    """
     match player:
         case consts.PLAYER:
             print("Human with", board.board, "Board and heuristic", heuristic)
@@ -111,6 +139,15 @@ def handle_player(player: int, board: BoardState, heuristic=None) -> None:
 
 
 def read_option(acceptable_options: list) -> int:
+    """
+    Reads and validates a number for a menu prompt
+
+        Parameters:
+            acceptable_options (list): the list of valid options for a menu
+        
+        Return:
+            option (int): the chosen valid option number
+    """
     print("")
     option = input("Enter your option here: ")
     while not option.isnumeric() or int(option) not in acceptable_options:
@@ -120,6 +157,9 @@ def read_option(acceptable_options: list) -> int:
 
 
 def display_banner() -> None:
+    """
+    Displays the banner
+    """
     print("")
     print("___________       __              __  .__             .____     ")
     print("\\__    ___/____  |  | __ ____   _/  |_|  |__   ____   |    |    ")
@@ -131,6 +171,9 @@ def display_banner() -> None:
 
 
 def display_main_menu() -> None:
+    """
+    Displays the main menu text
+    """
     display_banner()
     print("\t\tPlease select an option:")
     print("\t\t\t0. Exit")
@@ -140,6 +183,9 @@ def display_main_menu() -> None:
 
 
 def display_difficulty_menu() -> None:
+    """
+    Displays the difficulty menu text
+    """
     display_banner()
     print("\t\tChoose your difficulty:")
     print("\t\t\t0. Go back")
@@ -150,6 +196,9 @@ def display_difficulty_menu() -> None:
 
 
 def display_algo_menu() -> None:
+    """
+    Displays the algorithms menu text
+    """
     display_banner()
     print("\t\tChoose your algorithm:")
     print("\t\t\t0. Go back")
@@ -162,6 +211,9 @@ def display_algo_menu() -> None:
 
 
 def display_heuristics_menu() -> None:
+    """
+    Displays the heuristics menu text
+    """
     display_banner()
     print("\t\tChoose your heuristic:")
     print("\t\t\t0. Go back")

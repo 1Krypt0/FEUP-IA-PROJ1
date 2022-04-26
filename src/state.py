@@ -22,6 +22,8 @@ bfs
 dfs
 ids
 ucs
+greedy
+a_star
 
 """
 
@@ -189,6 +191,15 @@ def move_right(state: BoardState) -> BoardState | None:
 
 
 def move_back(state: BoardState) -> BoardState:
+    """
+    Generate the state that originated the current state
+
+        Parameters:
+            state (BoardState): the current state
+
+        Returns:
+            previous (BoardState): the previous state
+    """
     if state.previous_node is None:
         return state
     else:
@@ -201,14 +212,41 @@ OPERATORS = {move_up: 1, move_down: 1, move_left: 1, move_right: 1}
 
 
 def manhattan_distance(node: BoardState) -> int:
+    """
+    Calculate the manhattan distance between the current position and the goal
+
+        Parameters:
+            node (BoardState): the current board state
+        
+        Returns:
+            distance (int): the manhattan distance between the current position and the goal
+    """
     return abs(node.x - node.goal_x) + abs(node.y - node.goal_y)
 
 
 def visited_l(node: BoardState) -> int:
+    """
+    Calculate the number of L shapes that have not been visited
+
+        Parameters:
+            node (BoardState): the current board state
+
+        Returns:
+            not_visited (int): the number of Ls that have not been visited
+    """
     return len(node.board.all_shapes.difference(node.board.visited_shapes))
 
 
 def euclidian_distance(node: BoardState) -> float:
+    """
+    Calculate the euclidian distance between the current position and the goal
+
+        Parameters:
+            node (BoardState): the current board state
+
+        Returns:
+            distance (float): the resulting distance
+    """
     return int(sqrt(((node.goal_x - node.x) ** 2) + ((node.goal_y - node.y) ** 2)))
 
 
@@ -219,6 +257,7 @@ def bfs(start: BoardState, intermediate=True) -> list:
 
         Parameters:
             start (BoardState): the starting state
+            intermediate (bool): whether or not to print intermediate boards
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -260,6 +299,8 @@ def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True) ->
         Parameters:
             state (BoardState): the starting state
             max_depth (int): the limit of the depth to explore
+            show_perf (bool): whether or not to show performance metrics
+            intermediate (bool): whether or not to print intermediate boards
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -283,6 +324,7 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int, intermediate=
             state (BoardState): the state that is being currently explored
             current_depth (int): the depth of the current state
             max_depth (int): the limit of the depth to explore
+            intermediate (bool): wheter or not to print intermediate boards
 
         Returns:
             found (bool): whether a solution has been found
@@ -315,6 +357,7 @@ def ids(state: BoardState, intermediate=True) -> list:
 
         Parameters:
             state (BoardState): the starting state
+            intermediate (bool): whether or not to print intermediate boards
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -341,6 +384,7 @@ def ucs(start: BoardState, intermediate=True) -> list:
 
         Parameters:
             state (BoardState): the starting state
+            intermediate (bool): whether or not to print intermediate boards
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -376,6 +420,17 @@ def ucs(start: BoardState, intermediate=True) -> list:
 
 
 def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float], intermediate=True) -> list:
+    """
+    Run greedy search to find a solution to the game.
+
+        Parameters:
+            state (BoardState): the starting state
+            heuristic (function): the heuristic function
+            intermediate (bool): whether or not to print intermediate boards
+
+        Returns:
+            path (list): the path from the starting state to the final state
+    """
 
     start_time = time.time()
     global node_count
@@ -408,7 +463,17 @@ def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float], in
 
 
 def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float], intermediate=True) -> list:
+    """
+    Run a* search to find a solution to the game.
 
+        Parameters:
+            state (BoardState): the starting state
+            heuristic (function): the heuristic function
+            intermediate (bool): whether or not to print intermediate boards
+
+        Returns:
+            path (list): the path from the starting state to the final state
+    """
     start_time = time.time()
     global node_count
     node_count = 0
@@ -483,6 +548,9 @@ def get_solution_from_previous(state: BoardState, show=True) -> list:
     return list(reversed(path))
 
 def run_perf_test():
+    """
+    Run set of tests for each algorithm on a set board to compare them
+    """
     board = generate_board(1)
     board_state = BoardState(board.start, board)
     algs = {bfs, dfs, ids, ucs, greedy, a_star}
