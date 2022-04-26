@@ -32,6 +32,10 @@ consts.UCS = 4
 consts.GREEDY = 5
 consts.A_STAR = 6
 
+'''
+    Functions analogous to the ones found inside game.py, except these are intended to work in the context of pygame
+'''
+
 def run_game():
 
     pygame.init()

@@ -18,6 +18,10 @@ GAME_FONT_SIZE = CELL_SIZE-20
 TEXT_BEGIN_X, TEXT_BEGIN_Y, TEXT_OFFSET_Y = 50, 50, 50
 OPTION_BEGIN_X = 100
 
+'''
+    Functions used for drawing on the pygame application's screen
+'''
+
 def draw_logo(window):
     logo = pygame.image.load('logo.png')
     window.blit(logo, (114, 100))

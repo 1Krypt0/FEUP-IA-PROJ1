@@ -259,6 +259,8 @@ def bfs(start: BoardState, intermediate=True, pygame_game=False, window=None) ->
         Parameters:
             start (BoardState): the starting state
             intermediate (bool): whether or not to print intermediate boards
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -293,9 +295,6 @@ def bfs(start: BoardState, intermediate=True, pygame_game=False, window=None) ->
     end_time = time.time()
     duration = end_time - start_time
 
-    # if pygame_game:
-    #     draw_final(window, current.board, duration, node_count, "Breadth-First Search")
-    # print("Took", duration, "seconds and visited", node_count, "nodes")
 
     return get_solution_from_previous(solution, pygame_game=pygame_game, window=window, algo="Breadth-First Search", duration=duration, node_count=node_count)
 
@@ -309,6 +308,9 @@ def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True, df
             max_depth (int): the limit of the depth to explore
             show_perf (bool): whether or not to show performance metrics
             intermediate (bool): whether or not to print intermediate boards
+            dfs (bool): whether dfs was called in order to calculate using dfs. false if ids
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -326,8 +328,6 @@ def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True, df
         end = time.time()
         duration = end - start
         if show_perf:
-            # if pygame_game:
-            #     draw_final(window, state.board, duration, node_count, "Depth-First Search")
             print("Took", duration, "seconds and visited", node_count, "nodes")
         return get_solution_from_next(state, pygame_game=pygame_game, window=window, algo=algo, duration=duration, node_count=node_count)
 
@@ -341,6 +341,9 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int, intermediate=
             current_depth (int): the depth of the current state
             max_depth (int): the limit of the depth to explore
             intermediate (bool): wheter or not to print intermediate boards
+            algo (string): name of the algorithm that called dfs_rec
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
 
         Returns:
             found (bool): whether a solution has been found
@@ -377,6 +380,8 @@ def ids(state: BoardState, intermediate=True, pygame_game=False, window=None) ->
         Parameters:
             state (BoardState): the starting state
             intermediate (bool): whether or not to print intermediate boards
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -398,9 +403,6 @@ def ids(state: BoardState, intermediate=True, pygame_game=False, window=None) ->
             end = time.time()
             duration = end - start
 
-            # if pygame_game: 
-            #     draw_final(window, state.board, duration, node_count, "Iterative Deepening Search")
-            # print("Took", duration, "seconds and visited", node_count, "nodes")
             return get_solution_from_next(state, False, pygame_game=pygame_game, window=window, algo="Iterative Deepening Search", duration=duration, node_count=node_count)
 
 
@@ -411,6 +413,8 @@ def ucs(start: BoardState, intermediate=True, pygame_game=False, window=None) ->
         Parameters:
             state (BoardState): the starting state
             intermediate (bool): whether or not to print intermediate boards
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -446,9 +450,6 @@ def ucs(start: BoardState, intermediate=True, pygame_game=False, window=None) ->
     end_time = time.time()
     duration = end_time - start_time
 
-    # if pygame_game:
-    #     draw_final(window, current.board, duration, node_count, "Uniform Cost Search")
-    # print("Took", duration, "seconds and visited", node_count, "nodes")
     return get_solution_from_previous(solution, True, pygame_game=pygame_game, window=window, algo="Uniform Cost Search", duration=duration, node_count=node_count)
 
 
@@ -460,6 +461,8 @@ def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float], in
             state (BoardState): the starting state
             heuristic (function): the heuristic function
             intermediate (bool): whether or not to print intermediate boards
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -496,9 +499,6 @@ def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float], in
     end_time = time.time()
     duration = end_time - start_time
 
-    # if pygame_game:
-    #     draw_final(window, current.board, duration, node_count, "Greedy Search", heuristic)
-    # print("Took", duration, "seconds and visited", node_count, "nodes")
     return get_solution_from_previous(solution, pygame_game=pygame_game, window=window, algo="Greedy Search", heuristic=heuristic, duration=duration, node_count=node_count)
 
 
@@ -510,6 +510,8 @@ def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float], in
             state (BoardState): the starting state
             heuristic (function): the heuristic function
             intermediate (bool): whether or not to print intermediate boards
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -545,10 +547,6 @@ def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float], in
     end_time = time.time()
     duration = end_time - start_time
 
-    # if pygame_game:
-    #     draw_final(window, current.board, duration, node_count, "A* Search", heuristic)
-    # print("Took", duration, "seconds and visited", node_count, "nodes")
-
     return get_solution_from_previous(solution, pygame_game=pygame_game, window=window, algo="A* Search", heuristic=heuristic, duration=duration, node_count=node_count)
 
 
@@ -559,6 +557,12 @@ def get_solution_from_next(state: BoardState, show: bool = True, pygame_game=Fal
         Parameters:
             state (BoardState): starting state
             show (bool, default: True): whether or not to print the final board
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
+            algo (string): name of the algorithm that called dfs_rec
+            heuristic (function): the heuristic function
+            duration (int): the time it took to find the solution
+            node_count (int): number of nodes visited
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -584,6 +588,12 @@ def get_solution_from_previous(state: BoardState, show=True, pygame_game=False, 
         Parameters:
             state (BoardState): final state
             show (bool, default: True): whether or not to print the final board
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
+            algo (string): name of the algorithm that called dfs_rec
+            heuristic (function): the heuristic function
+            duration (int): the time it took to find the solution
+            node_count (int): number of nodes visited
 
         Returns:
             path (list): the path from the starting state to the final state
@@ -605,6 +615,10 @@ def get_solution_from_previous(state: BoardState, show=True, pygame_game=False, 
 def run_perf_test(pygame_game=False, window=None):
     """
     Run set of tests for each algorithm on a set board to compare them
+
+        Parameters:
+            pygame_game (bool): whether or not the game is being run using pygame
+            window (pygame surface): the pygame surface to draw on
     """
     board = generate_board(1)
     board_state = BoardState(board.start, board)
