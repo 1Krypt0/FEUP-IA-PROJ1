@@ -32,29 +32,34 @@ consts.UCS = 4
 consts.GREEDY = 5
 consts.A_STAR = 6
 
+'''
+    Functions analogous to the ones found inside game.py, except these are intended to work in the context of pygame
+'''
+
 def run_game():
 
     pygame.init()
     window = pygame.display.set_mode((WIDTH, HEIGHT))
 
-    while True:
-        handle_main_menu(window)
+    handle_main_menu(window)
+
     pygame.quit()
     
 
-def handle_main_menu(window) -> None:
-    draw_menu(window, texts[text_num.MAIN_MENU])
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            match event.key:
-                case pygame.K_ESCAPE:
-                    pygame.quit()
-                case pygame.K_1:
-                    handle_difficulty_menu(window, consts.PLAYER)
-                # case pygame.K_2:
-                #     handle_algorithms_menu(window)
-                # case pygame.K_3:
-                #     run_perf_test()
+def handle_main_menu(game_window) -> None:
+    while(True):
+        draw_menu(game_window, texts[text_num.MAIN_MENU])
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                match event.key:
+                    case pygame.K_ESCAPE:
+                        pygame.quit()
+                    case pygame.K_1:
+                        handle_difficulty_menu(game_window, consts.PLAYER)
+                    case pygame.K_2:
+                        handle_algorithms_menu(game_window)
+                    case pygame.K_3:
+                        run_perf_test(pygame_game = True, window=game_window)
 
 def handle_algorithms_menu(window) -> None:
     draw_menu(window, texts[text_num.ALGORITHMS])
@@ -98,8 +103,7 @@ def handle_difficulty_menu(window, player: int, heuristic=None) -> None:
                         loop = False 
                     case pygame.K_4:
                         option = 4
-                        loop = False       
-    
+                        loop = False
     board = generate_board(option)
     board_state = BoardState(board.start, board)
     handle_player(window, player, board_state, heuristic)
@@ -114,28 +118,28 @@ def handle_heuristics_menu(window, state: int) -> None:
                     case pygame.K_ESCAPE:
                         return
                     case pygame.K_1:
-                        handle_difficulty_menu(state, manhattan_distance)
+                        handle_difficulty_menu(window, state, manhattan_distance)
                         return
                     case pygame.K_2:
-                        handle_difficulty_menu(state, euclidian_distance)
+                        handle_difficulty_menu(window, state, euclidian_distance)
                         return
                     case pygame.K_3:
-                        handle_difficulty_menu(state, visited_l)
+                        handle_difficulty_menu(window, state, visited_l)
                         return
 
-def handle_player(window, player: int, board: BoardState, heuristic=None) -> None:
+def handle_player(game_window, player: int, board: BoardState, heuristic=None) -> None:
     match player:
         case consts.PLAYER:
-            pygame_play(board, window)
+            pygame_play(board, game_window)
         case consts.DFS:
-            dfs(board, 20)
+            dfs(board, 20, show_perf=False, pygame_game=True, window=game_window)
         case consts.BFS:
-            bfs(board)
+            bfs(board, pygame_game=True, window=game_window)
         case consts.IDS:
-            ids(board)
+            ids(board, pygame_game=True, window=game_window)
         case consts.UCS:
-            ucs(board)
+            ucs(board, pygame_game=True, window=game_window)
         case consts.GREEDY:
-            greedy(board, heuristic)
+            greedy(board, heuristic, pygame_game=True, window=game_window)
         case consts.A_STAR:
-            a_star(board, heuristic)
+            a_star(board, heuristic, pygame_game=True, window=game_window)

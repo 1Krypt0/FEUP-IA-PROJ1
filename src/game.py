@@ -11,11 +11,11 @@ from state import (
     move_right,
 )
 from board import is_solved
-from pygame_draw import draw_board
+from pygame_draw import draw_player, draw_final
 
 def pygame_play(board: BoardState, window):
     while not is_solved((board.x, board.y), (board.goal_x, board.goal_y), board.board):
-        draw_board(window, board)
+        draw_player(window, board.board)
         move = pygame_choose_move()
         dummy = deepcopy(board)
         if move(dummy) is None:
@@ -23,6 +23,8 @@ def pygame_play(board: BoardState, window):
             continue
         else:
             board = move(board)
+
+    draw_final(window, board.board, 0, 0, "Player")
     return get_solution_from_previous(board)
 
 
@@ -49,7 +51,7 @@ def pygame_choose_move() -> Callable[[BoardState], BoardState | None]:
                         return move_right
                     case pygame.K_d:
                         return move_right
-                    case pygame.K_b:
+                    case pygame.K_BACKSPACE:
                         return move_back
 
 def play(board: BoardState) -> list:
