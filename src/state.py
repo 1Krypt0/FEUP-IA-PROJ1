@@ -300,7 +300,7 @@ def bfs(start: BoardState, intermediate=True, pygame_game=False, window=None) ->
     return get_solution_from_previous(solution, pygame_game=pygame_game, window=window, algo="Breadth-First Search")
 
 
-def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True, pygame_game=False, window=None) -> list:
+def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True, dfs=True, pygame_game=False, window=None) -> list:
     """
     Run depth-first search to find a solution to the game.
 
@@ -313,10 +313,15 @@ def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True, py
         Returns:
             path (list): the path from the starting state to the final state
     """
+
+    algo = "Depth-First Search"
+    if not dfs:
+        algo = "Iterative Deepening Search"
+
     global node_count
     node_count = 0
     start = time.time()
-    found = dfs_rec(state, 0, max_depth, intermediate, pygame_game=pygame_game, window=window)
+    found = dfs_rec(state, 0, max_depth, intermediate, algo=algo, pygame_game=pygame_game, window=window)
     if found:
         end = time.time()
         if show_perf:
@@ -327,7 +332,7 @@ def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True, py
         return get_solution_from_next(state, pygame_game=pygame_game, window=window, algo="Depth-First Search")
 
 
-def dfs_rec(state: BoardState, current_depth: int, max_depth: int, intermediate=True, pygame_game=False, window=None) -> bool:
+def dfs_rec(state: BoardState, current_depth: int, max_depth: int, intermediate=True, algo="Depth-First Search", pygame_game=False, window=None) -> bool:
     """
     Auxiliary function to run depth-first search to find a solution to the game.
 
@@ -345,7 +350,7 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int, intermediate=
     if intermediate:
         time.sleep(0.1)
         if pygame_game:
-            draw_intermediate(window, state.board, "Depth-First Search")
+            draw_intermediate(window, state.board, algo)
         else:
             print(state.board)
     if current_depth == max_depth:
@@ -359,7 +364,7 @@ def dfs_rec(state: BoardState, current_depth: int, max_depth: int, intermediate=
         if not next:
             continue
         state.next_node = next
-        if dfs_rec(next, current_depth + 1, max_depth, intermediate, pygame_game=pygame_game, window=window):
+        if dfs_rec(next, current_depth + 1, max_depth, intermediate, algo=algo, pygame_game=pygame_game, window=window):
             return True
 
     return False
@@ -387,7 +392,7 @@ def ids(state: BoardState, intermediate=True, pygame_game=False, window=None) ->
                 draw_intermediate(window, state.board, "Iterative Deepening Search")
             else:
                 print(state.board)
-        if not dfs(state, depth, False, True, pygame_game=pygame_game, window=window):
+        if not dfs(state, depth, False, intermediate, dfs=False, pygame_game=pygame_game, window=window):
             depth += 1
         else:
             end = time.time()
