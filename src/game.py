@@ -53,6 +53,15 @@ def pygame_choose_move() -> Callable[[BoardState], BoardState | None]:
                         return move_back
 
 def play(board: BoardState) -> list:
+    """
+    Handles the game loop for human plays mode
+
+        Parameters:
+            board (BoardState): the board state
+
+        Returns:
+            solution (list): the path taken to the goal 
+    """
     while not is_solved((board.x, board.y), (board.goal_x, board.goal_y), board.board):
         print(board.board)
         move = choose_move()
@@ -66,6 +75,12 @@ def play(board: BoardState) -> list:
 
 
 def choose_move() -> Callable[[BoardState], BoardState | None]:
+    """
+    Reads user input and translates it to one of the valid move functions
+
+        Returns:
+            move (function): the function that generates the following state
+    """
     print("")
     option = input(
         "Enter your move here (w - UP, a - LEFT, s - DOWN, d - RIGHT, b - BACK): "

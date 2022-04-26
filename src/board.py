@@ -6,6 +6,35 @@ RESET = "\033[0m"
 
 
 class Board:
+    """
+    A class to represent a state a board.
+
+    ...
+
+    Attributes
+    ----------
+    board : list
+        the content of the board
+    start : (int, int)
+        the starting coordinates
+    goal : (int, int)
+        the goal coordinates
+    visited : list
+        array to keep track of the visited positions
+    visited_shapes : set
+        set to keep track of visited shapes
+    all_shapes : set
+        set to keep track of all shapes
+    size : int
+        board size
+
+    Methods
+    -------
+    reset
+    visit
+    unvisit
+    """
+
     def __init__(self, difficulty: int) -> None:
         self.board = choose_random_board(difficulty)
         size = len(self.board)
@@ -103,31 +132,75 @@ class Board:
         final += "\n"
         return final
 
-# pos  -> current position on the algorithm, on the maze
-# goal -> end position, on the maze
 def is_complete(pos, goal) -> bool:
+    """
+    Checks if the board is complete
+
+        Parameters:
+            pos (int, int): the current position
+            goal (int, int): the final position
+        
+        Returns:
+            finished (bool): whether the player has reached the final position
+    """
     return pos == goal
 
 
 def visited_all(board: Board) -> bool:
+    """
+    Checks if the player has visited all the different shapes
+
+        Parameters:
+            board (Board): the board's content
+        
+        Return:
+            visited_all (bool): whether the player has visited all the shapes
+    """
     return board.visited_shapes == board.all_shapes
 
 
 def is_solved(pos, goal, board: Board) -> bool:
+    """
+    Checks if the game is solved
+
+        Parameters:
+            pos (int, int): the current position for the player
+            goal (int, int): the coordinates of the final position
+            board (Board): the board's content
+
+        Returns:
+            is_solved (bool): wheter the game is solved 
+    """
     return is_complete(pos, goal) and visited_all(board)
 
 
 def check_bounds(board: Board, pos: list) -> bool:
+    """
+    Checks if a position is within bounds of the board
+
+        Parameters:
+            board (Board): the board
+            pos (list): the position
+        
+        Returns:
+            in_bounds: whether the position is within bounds
+    """
     return not (
         pos[0] < 0 or pos[1] < 0 or pos[0] >= board.size or pos[1] >= board.size
     )
 
 
-# board  -> board object
-# shapes -> array of visited board positions on path
-# pos    -> current position on the algorithm, on the maze
-# returns the validity of the position
 def check_valid(board: Board, pos) -> bool:
+    """
+    Checks if a play is valid
+
+        Parameters:
+            board (Board): the board
+            pos (list): current position on the algorithm, on the maze
+
+        Returns:
+            is_valid (bool): whether the play in valid
+    """
 
     if not check_bounds(board, pos):
         return False
@@ -144,6 +217,15 @@ def check_valid(board: Board, pos) -> bool:
 
 
 def determine_shapes(board: list[list[int]]) -> set:
+    """
+    Determines shapes from board content
+
+        Parameters:
+            board (list[list[int]]): the content of the board
+        
+        Returns:
+            shapes (set): the set of different shapes in the board
+    """
     final = set()
     for line in board:
         for num in line:
@@ -153,10 +235,28 @@ def determine_shapes(board: list[list[int]]) -> set:
 
 
 def generate_board(difficulty: int) -> Board:
+    """
+    Generates a board with a given difficulty
+
+        Parameters:
+            difficulty (int): the desired game difficulty
+        
+        Returns: 
+            board (Board): a board with the desired difficulty
+    """
     return Board(difficulty)
 
 
 def choose_random_board(difficulty: int) -> list[list[int]]:
+    """
+    Chooses a board randomly from a set of boards of a given difficulty
+
+        Parameters:
+            difficulty (int): the difficulty level
+        
+        Returns:
+            board (list[list[int]]): the content of the board
+    """
     if difficulty == 1:
         return random.choice(EASY_BOARDS_LIST)
     elif difficulty == 2:
