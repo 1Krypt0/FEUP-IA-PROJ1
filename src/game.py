@@ -24,7 +24,7 @@ def pygame_play(board: BoardState, window):
         else:
             board = move(board)
 
-    draw_final(window, board.board, 0, 0)
+    draw_final(window, board.board, 0, 0, "Player")
     return get_solution_from_previous(board)
 
 

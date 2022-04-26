@@ -293,10 +293,11 @@ def bfs(start: BoardState, intermediate=True, pygame_game=False, window=None) ->
     end_time = time.time()
     duration = end_time - start_time
 
-    draw_final(window, current.board, duration, node_count)
+    if pygame_game:
+        draw_final(window, current.board, duration, node_count, "Breadth-First Search")
     print("Took", duration, "seconds and visited", node_count, "nodes")
 
-    return get_solution_from_previous(solution, pygame_game=pygame_game, window=window)
+    return get_solution_from_previous(solution, pygame_game=pygame_game, window=window, algo="Breadth-First Search")
 
 
 def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True, pygame_game=False, window=None) -> list:
@@ -320,10 +321,10 @@ def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True, py
         end = time.time()
         if show_perf:
             duration = end - start
-
-            draw_final(window, state.board, duration, node_count)
+            if pygame_game:
+                draw_final(window, state.board, duration, node_count, "Depth-First Search")
             print("Took", duration, "seconds and visited", node_count, "nodes")
-        return get_solution_from_next(state, pygame_game=pygame_game, window=window, algo=algo)
+        return get_solution_from_next(state, pygame_game=pygame_game, window=window, algo="Depth-First Search")
 
 
 def dfs_rec(state: BoardState, current_depth: int, max_depth: int, intermediate=True, pygame_game=False, window=None) -> bool:
@@ -392,7 +393,8 @@ def ids(state: BoardState, intermediate=True, pygame_game=False, window=None) ->
             end = time.time()
             duration = end - start
 
-            draw_final(window, state.board, duration, node_count)
+            if pygame_game: 
+                draw_final(window, state.board, duration, node_count, "Iterative Deepening Search")
             print("Took", duration, "seconds and visited", node_count, "nodes")
             return get_solution_from_next(state, False, pygame_game=pygame_game, window=window, algo="Iterative Deepening Search")
 
@@ -439,9 +441,10 @@ def ucs(start: BoardState, intermediate=True, pygame_game=False, window=None) ->
     end_time = time.time()
     duration = end_time - start_time
 
-    draw_final(window, current.board, duration, node_count)
+    if pygame_game:
+        draw_final(window, current.board, duration, node_count, "Uniform Cost Search")
     print("Took", duration, "seconds and visited", node_count, "nodes")
-    return get_solution_from_previous(solution, True, pygame_game=pygame_game, window=window)
+    return get_solution_from_previous(solution, True, pygame_game=pygame_game, window=window, algo="Uniform Cost Search")
 
 
 def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float], intermediate=True, pygame_game=False, window=None) -> list:
@@ -488,9 +491,10 @@ def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float], in
     end_time = time.time()
     duration = end_time - start_time
 
-    draw_final(window, current.board, duration, node_count)
+    if pygame_game:
+        draw_final(window, current.board, duration, node_count, "Greedy Search", heuristic)
     print("Took", duration, "seconds and visited", node_count, "nodes")
-    return get_solution_from_previous(solution, pygame_game=pygame_game, window=window)
+    return get_solution_from_previous(solution, pygame_game=pygame_game, window=window, algo="Greedy Search", heuristic=heuristic)
 
 
 def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float], intermediate=True, pygame_game=False, window=None) -> list:
@@ -536,13 +540,14 @@ def a_star(start: BoardState, heuristic: Callable[[BoardState], int | float], in
     end_time = time.time()
     duration = end_time - start_time
 
-    draw_final(window, current.board, duration, node_count)
+    if pygame_game:
+        draw_final(window, current.board, duration, node_count, "A* Search", heuristic)
     print("Took", duration, "seconds and visited", node_count, "nodes")
 
-    return get_solution_from_previous(solution, pygame_game=pygame_game, window=window)
+    return get_solution_from_previous(solution, pygame_game=pygame_game, window=window, algo="A* Search", heuristic=heuristic)
 
 
-def get_solution_from_next(state: BoardState, show: bool = True, pygame_game=False, window=None, algo=None) -> list:
+def get_solution_from_next(state: BoardState, show: bool = True, pygame_game=False, window=None, algo=None, heuristic=None) -> list:
     """
     Calculate the path saved in a state's next attribute
 
@@ -559,13 +564,13 @@ def get_solution_from_next(state: BoardState, show: bool = True, pygame_game=Fal
         state = state.next_node
     if show:
         if pygame_game:
-            draw_intermediate(window, path[-1].board, algo=algo)
+            draw_intermediate(window, path[-1].board, algo=algo, heuristic=heuristic)
         else:
             print(path[-1].board)
     return path
 
 
-def get_solution_from_previous(state: BoardState, show=True, pygame_game=False, window=None, algo=None) -> list:
+def get_solution_from_previous(state: BoardState, show=True, pygame_game=False, window=None, algo=None, heuristic=None) -> list:
     """
     Calculate the path saved in a state's previous attribute
 
@@ -580,7 +585,7 @@ def get_solution_from_previous(state: BoardState, show=True, pygame_game=False, 
     if state:
         if show:
             if pygame_game:
-                draw_intermediate(window, state.board, algo=algo)
+                draw_intermediate(window, state.board, algo=algo, heuristic=heuristic)
             else:
                 print(state.board)
         while state:

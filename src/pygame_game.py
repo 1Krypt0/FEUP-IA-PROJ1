@@ -128,7 +128,7 @@ def handle_player(game_window, player: int, board: BoardState, heuristic=None) -
         case consts.PLAYER:
             pygame_play(board, game_window)
         case consts.DFS:
-            dfs(board, 20, pygame_game=True, window=game_window)
+            dfs(board, 20, show_perf=False, pygame_game=True, window=game_window)
         case consts.BFS:
             bfs(board, pygame_game=True, window=game_window)
         case consts.IDS:
