@@ -1,5 +1,6 @@
 import pygame
 from board import Board
+import time
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -41,14 +42,30 @@ def draw_menu(window, menu: list) -> None:
 
     pygame.display.update()
 
-        
-def draw_board(window, board: Board) -> None:
+def draw_intermediate(window, board: Board, algo, heuristic=None) -> None:
+    window.fill(BG_COLOR)
+    title = "Calculating path"
+    description = [
+        "Algorithm: " + algo
+    ]
+    if not heuristic==None:
+        description.append("Heuristic: ")
+    draw_board(window, board, title, description)
+
+def draw_final(window, board: Board, duration, node_count) -> None:
+    window.fill(BG_COLOR)
+    title = "Final board:"
+    description = [
+        "Board obtained after: " + str(duration),
+        "Nodes visited: " + str(node_count)
+    ]
+    draw_board(window, board, title, description)
+    time.sleep(5)
+
+def draw_player(window, board: Board) -> None:
     window.fill(BG_COLOR)
 
-    desc_title_size = 30
-    description_font_size = 20
-    desc_title_font = pygame.font.SysFont("Times New Roman", desc_title_size)
-    description_font = pygame.font.SysFont("Times New Roman", description_font_size)
+    title = "Instructions:"
     description = [
         "UP or \'w\' to move up",
         "DOWN or \'s\' to move down",
@@ -57,9 +74,19 @@ def draw_board(window, board: Board) -> None:
         "\'b\' to move back",
         "ESC to quit"
     ]
+
+    draw_board(window, board, title, description)
+
+def draw_board(window, board: Board, title, description) -> None:
+    window.fill(BG_COLOR)
+
+    desc_title_size = 30
+    description_font_size = 20
+    desc_title_font = pygame.font.SysFont("Times New Roman", desc_title_size)
+    description_font = pygame.font.SysFont("Times New Roman", description_font_size)
     desc_y = 50
     desc_x = 100
-    title = desc_title_font.render("Instructions:", True, BLACK)
+    title = desc_title_font.render(title, True, BLACK)
     title_rect = pygame.Rect(desc_x, desc_y, desc_title_size, desc_title_size)
     window.blit(title, title_rect)
     desc_x += 50
