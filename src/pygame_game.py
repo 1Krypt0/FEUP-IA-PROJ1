@@ -37,24 +37,25 @@ def run_game():
     pygame.init()
     window = pygame.display.set_mode((WIDTH, HEIGHT))
 
-    while True:
-        handle_main_menu(window)
+    handle_main_menu(window)
+
     pygame.quit()
     
 
 def handle_main_menu(game_window) -> None:
-    draw_menu(game_window, texts[text_num.MAIN_MENU])
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            match event.key:
-                case pygame.K_ESCAPE:
-                    pygame.quit()
-                case pygame.K_1:
-                    handle_difficulty_menu(game_window, consts.PLAYER)
-                case pygame.K_2:
-                    handle_algorithms_menu(game_window)
-                case pygame.K_3:
-                    run_perf_test(pygame_game = True, window=game_window)
+    while(True):
+        draw_menu(game_window, texts[text_num.MAIN_MENU])
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                match event.key:
+                    case pygame.K_ESCAPE:
+                        pygame.quit()
+                    case pygame.K_1:
+                        handle_difficulty_menu(game_window, consts.PLAYER)
+                    case pygame.K_2:
+                        handle_algorithms_menu(game_window)
+                    case pygame.K_3:
+                        run_perf_test(pygame_game = True, window=game_window)
 
 def handle_algorithms_menu(window) -> None:
     draw_menu(window, texts[text_num.ALGORITHMS])

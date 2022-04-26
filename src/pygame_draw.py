@@ -51,13 +51,15 @@ def draw_intermediate(window, board: Board, algo, heuristic=None) -> None:
     draw_board(window, board, title, description)
 
 def draw_final(window, board: Board, duration, node_count) -> None:
-    title = "Final board:"
+    title = "Solution found."
     description = [
         "Board obtained after: " + str(duration),
         "Nodes visited: " + str(node_count)
     ]
+    if duration == 0:
+        description = []
     draw_board(window, board, title, description)
-    time.sleep(5)
+    time.sleep(4)
 
 def draw_player(window, board: Board) -> None:
     title = "Instructions:"

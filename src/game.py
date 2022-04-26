@@ -11,7 +11,7 @@ from state import (
     move_right,
 )
 from board import is_solved
-from pygame_draw import draw_player
+from pygame_draw import draw_player, draw_final
 
 def pygame_play(board: BoardState, window):
     while not is_solved((board.x, board.y), (board.goal_x, board.goal_y), board.board):
@@ -23,6 +23,8 @@ def pygame_play(board: BoardState, window):
             continue
         else:
             board = move(board)
+
+    draw_final(window, board.board, 0, 0)
     return get_solution_from_previous(board)
 
 
