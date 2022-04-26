@@ -5,7 +5,7 @@ from copy import deepcopy
 from queue import PriorityQueue
 from board import check_valid, is_solved
 from math import sqrt
-from pygame_draw import  draw_intermediate
+from pygame_draw import  draw_intermediate, draw_final
 import time
 
 node_count = 0
@@ -291,7 +291,10 @@ def bfs(start: BoardState, intermediate=True, pygame_game=False, window=None) ->
             queue.append(next)
 
     end_time = time.time()
-    print("Took", end_time - start_time, "seconds and visited", node_count, "nodes")
+    duration = end_time - start_time
+
+    draw_final(window, current.board, duration, node_count)
+    print("Took", duration, "seconds and visited", node_count, "nodes")
 
     return get_solution_from_previous(solution, pygame_game=pygame_game, window=window)
 
@@ -316,7 +319,10 @@ def dfs(state: BoardState, max_depth: int, show_perf=True, intermediate=True, py
     if found:
         end = time.time()
         if show_perf:
-            print("Took", end - start, "seconds and visited", node_count, "nodes")
+            duration = end - start
+
+            draw_final(window, state.board, duration, node_count)
+            print("Took", duration, "seconds and visited", node_count, "nodes")
         return get_solution_from_next(state, pygame_game=pygame_game, window=window, algo=algo)
 
 
@@ -384,7 +390,10 @@ def ids(state: BoardState, intermediate=True, pygame_game=False, window=None) ->
             depth += 1
         else:
             end = time.time()
-            print("Took", end - start, "seconds and visited", node_count, "nodes")
+            duration = end - start
+
+            draw_final(window, state.board, duration, node_count)
+            print("Took", duration, "seconds and visited", node_count, "nodes")
             return get_solution_from_next(state, False, pygame_game=pygame_game, window=window, algo="Iterative Deepening Search")
 
 
@@ -428,7 +437,10 @@ def ucs(start: BoardState, intermediate=True, pygame_game=False, window=None) ->
             queue.put((pair[0] + OPERATORS[op], [nextstate]))
 
     end_time = time.time()
-    print("Took", end_time - start_time, "seconds and visited", node_count, "nodes")
+    duration = end_time - start_time
+
+    draw_final(window, current.board, duration, node_count)
+    print("Took", duration, "seconds and visited", node_count, "nodes")
     return get_solution_from_previous(solution, True, pygame_game=pygame_game, window=window)
 
 
@@ -474,7 +486,10 @@ def greedy(start: BoardState, heuristic: Callable[[BoardState], int | float], in
             queue.put((heuristic(nextstate), [nextstate]))
 
     end_time = time.time()
-    print("Took", end_time - start_time, "seconds and visited", node_count, "nodes")
+    duration = end_time - start_time
+
+    draw_final(window, current.board, duration, node_count)
+    print("Took", duration, "seconds and visited", node_count, "nodes")
     return get_solution_from_previous(solution, pygame_game=pygame_game, window=window)
 
 

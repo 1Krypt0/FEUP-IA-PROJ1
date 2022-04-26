@@ -47,7 +47,7 @@ def draw_intermediate(window, board: Board, algo, heuristic=None) -> None:
         "Algorithm: " + algo
     ]
     if not heuristic==None:
-        description.append("Heuristic: ")
+        description.append("Heuristic: " + heuristic.__name__)
     draw_board(window, board, title, description)
 
 def draw_final(window, board: Board, duration, node_count) -> None:

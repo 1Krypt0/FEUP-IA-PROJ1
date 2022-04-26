@@ -98,8 +98,7 @@ def handle_difficulty_menu(window, player: int, heuristic=None) -> None:
                         loop = False 
                     case pygame.K_4:
                         option = 4
-                        loop = False       
-    
+                        loop = False
     board = generate_board(option)
     board_state = BoardState(board.start, board)
     handle_player(window, player, board_state, heuristic)
@@ -114,13 +113,13 @@ def handle_heuristics_menu(window, state: int) -> None:
                     case pygame.K_ESCAPE:
                         return
                     case pygame.K_1:
-                        handle_difficulty_menu(state, manhattan_distance)
+                        handle_difficulty_menu(window, state, manhattan_distance)
                         return
                     case pygame.K_2:
-                        handle_difficulty_menu(state, euclidian_distance)
+                        handle_difficulty_menu(window, state, euclidian_distance)
                         return
                     case pygame.K_3:
-                        handle_difficulty_menu(state, visited_l)
+                        handle_difficulty_menu(window, state, visited_l)
                         return
 
 def handle_player(game_window, player: int, board: BoardState, heuristic=None) -> None:
